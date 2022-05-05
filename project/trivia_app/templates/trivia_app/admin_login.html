@@ -1,0 +1,62 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+{% block title  %} Login Page {% endblock %}
+
+{% block head_files %}
+<link rel="stylesheet" href="static/trivia_app/loginNDregister.css">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main">  
+    <div style="position:relative;padding:0;width:100%;height:10px;">
+        <form id="" method="POST" action="/admin_RNL">
+            <button name="user_go" type="submit">User page</button>
+        </form>
+        <form id="" method="POST" action="/admin_RNL">
+            <button name="main_admin_go" type="submit">Main admin page</button>
+        </form>
+    </div>
+</br>
+</br>
+</br>
+
+    <input type="checkbox" id="chk" aria-hidden="true">
+        <div class="signup">
+            <form method="POST" action="/admin_RNL">
+                <label for="chk" aria-hidden="true">Log in</label>
+                <input type="text" name="username" autocomplete="off" placeholder="Username" required="" maxlength="20">
+                <input type="text" name="code" autocomplete="off" placeholder="Code" required="">
+                <input type="password" name="password" autocomplete="off" placeholder="Password" required="" maxlength="20">
+                <button type="submit" name="registerbutton">Sign up</button>
+                <p> {{text_return}} </p>
+            </form>
+        </div>
+
+        <div class="login">
+            <form method="POST" action="/admin_RNL">
+                <label for="chk" aria-hidden="true">Sign up</label>
+                <input type="text" name="username" autocomplete="off" placeholder="Username" required="">
+                <input type="password" name="password" autocomplete="off" placeholder="Password" required="">
+                <button type="submit" name="loginbutton">Log in</button>
+                <p> {{text_return}} </p>
+            </form>
+        </div>
+
+</div>
+
+
+<script>
+    function preventBack() {
+        window.history.forward(); 
+      }
+      
+      setTimeout("preventBack()", 0);
+      
+      window.onunload = function () { null };
+      
+</script>
+{% endblock %}

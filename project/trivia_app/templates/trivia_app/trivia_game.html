@@ -1,0 +1,128 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+{% block title  %} Trivia Page {% endblock %}
+
+{% block head_files %}
+<link rel="stylesheet" href="static/trivia_app/trivia_q.css"> 
+{% endblock %}
+
+
+{% block content %}
+<section class="app">
+<div style="color:{{text_color}}">
+  <form id="myform" method="POST" action="/trivia">
+  <h1>Check the right answer</h1>
+  </br>
+  <h3 id ="time_script"> Prepare!!!</h3>
+  </br>
+  <h3> Question: {{text_question}}</h3>
+  <article class="feature1">
+    <input id="feature1" type="checkbox" name="box" value="{{text_answer_1}}" onClick="onlyOne(this)" />
+    <div>
+      <span>
+        {{text_answer_1}}
+      </span>
+    </div>
+  </article>
+  <article class="feature2">
+    <input id="feature2" type="checkbox" name="box" value="{{text_answer_2}}" onClick="onlyOne(this)" />
+    <div>
+      <span>
+        {{text_answer_2}}
+      </span>
+    </div>
+  </article>
+  <article class="feature3">
+    <input id="feature3" type="checkbox" name="box" value="{{text_answer_3}}" onClick="onlyOne(this)" />
+    <div>
+      <span>
+        {{text_answer_3}}
+      </span>
+    </div>
+  </article>
+  <article class="feature4">
+    <input id="feature4" type="checkbox" name="box" value="{{text_answer_4}}" onClick="onlyOne(this)" />
+    <div>
+      <span>
+        {{text_answer_4}}
+      </span>
+    </div>
+  </article>
+</br>
+  <input type="hidden" id="hid_answer" name="hid_answer" value="">
+  <input type="hidden" name="hid_q_id" value="{{hid_question_id}}">
+  <input type="hidden" name="hid_game_id" value="{{hid_game_id}}">
+  <p>{{text_end_round}} idk should be success?</p>
+  <button id="submit_button" type="submit">Check</button>
+  </form>
+  </div>
+</section>
+
+
+<script>
+
+  function startTimer(duration, display) {
+    setInterval(function () {
+        duration=--duration;
+        display.textContent = "Your Time : " + duration;
+        if (duration==0){
+          document.getElementById("feature1").checked = true;//checking the first one but it gives me it "" so there is no answer
+          document.getElementById("submit_button").click();
+        }
+    }, 1000);
+}
+var dr=20;
+
+window.onload = function () {
+    var display = document.getElementById('time_script')
+    startTimer(dr, display);
+
+};
+
+
+
+document.getElementById('myform').onsubmit = function (e) {
+  var checkbox = document.getElementsByName("box"),
+      i,
+      checked;
+  for (i = 0; i < checkbox.length; i += 1) {
+    checked = (checkbox[i].checked||checked===true)?true:false;
+  }
+
+  if (checked == false) {
+    alert('Check Something!');
+    e.preventDefault();
+    return false;
+  }
+}
+
+function onlyOne(checkbox) {
+    console.log(checkbox);
+    var checkboxes = document.getElementsByName('box');
+    var hiddenid = document.getElementById('hid_answer');
+    checkboxes.forEach((item) => {
+        if (item !== checkbox) {
+          console.log(item);
+          item.checked = false;
+        }
+        else{
+          hiddenid.value=item.value;
+        }
+    
+    })
+}
+
+function preventBack() {
+  window.history.forward(); 
+}
+
+setTimeout("preventBack()", 0);
+
+window.onunload = function () { null };
+
+</script>
+
+
+{% endblock %}

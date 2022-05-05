@@ -1,0 +1,315 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+{% block title  %} Trivia Page {% endblock %}
+
+{% block head_files %}
+<link rel="stylesheet" href="static/trivia_app/admin.css">
+{% endblock %}
+
+
+{% block content %}
+
+<form method="GET" action="/log_out">
+  <button type="submit">log out</button>
+  </form>
+
+<div id="CheckType">
+    <button class="btnChoose" name="btn-ff" type="submit" value="func" >Show Admin Functions</button>
+    <button class="btnChoose" name="btn-ff" type="submit" value="data" >Show Data Base</button>
+    <p>{{return_answer}}</p>
+    <p>{{notice}}</p>
+
+<div id="func" style="display:none">
+
+<h1> Choose what you want to change</h1>
+<form id="myform" method="GET" action="/main_admin">
+  <div id="a"> 
+    <div class="aa"><p> <input type="checkbox" value="delete_admin" name="box" onClick="onlyOneAdminChoose(this)"/>Delete Admins</p></div>
+    <div class="aa"><p> <input type="checkbox" value="insert_code" name="box" onClick="onlyOneAdminChoose(this)"/>Insert all values for first time</p></div>
+    <div class="aa"><p> <input type="checkbox" value="update_code" name="box" onClick="onlyOneAdminChoose(this)"/>Update one of values</p></div>
+    <div class="aa"><p> <input type="checkbox" value="add_prize" name="box" onClick="onlyOneAdminChoose(this)"/>Add new prize</p></div>
+  </div>
+</form>
+
+<form id="MyFormAdmin" style="display:none" method="POST" action="/main_admin">
+    <h5>Delete Admin by username</h5>
+    <p>Enter username:</p>
+    <input type="text" name="username_find" autocomplete="off">
+    <button type="submit" name="button_delete_admin"> click </button>
+  </form>
+
+  <form id="MyFormPrize" style="display:none" method="POST" action="/main_admin">
+    <h5>Add new prize</h5>
+    <p>Enter the name:</p>
+    <input type="text" name="name_insert" autocomplete="off">
+    <p>Enter amount</p>
+    <input type="number" name="amount_insert" autocomplete="off">
+    <button type="submit" name="button_insert_prize"> click </button>
+  </form>
+
+  <form id="MyFormInsertValues" style="display:none" method="POST" action="/main_admin">
+    <h5>Add new values(only first time)</h5>
+    <p>Enter the main code:</p>
+    <input type="text" name="main_code_insert" required="" maxlength="20" autocomplete="off">
+    <p>Enter the admin code invite</p>
+    <input type="text" name="admin_inv_code_insert" required="" maxlength="20" autocomplete="off">
+    <p>Enter the base points to join rulate</p>
+    <input type="number" name="rulate_points_insert" required="" maxlength="20" autocomplete="off">
+    <button type="submit" name="button_insert_values"> click </button>
+  </form>
+
+  <div id="MyFormUpdateValues" style="display:none">
+     <h5>Update values </h5>
+    <form method="POST" action="/main_admin">
+        <p>Enter the main code:</p>
+        <input type="text" name="update" required="" maxlength="20" autocomplete="off">
+        <button type="submit" name="button_update_value_code"> Update </button>
+    </form>
+    </br>
+    <form method="POST" action="/main_admin">
+        <p>Enter the admin code invite</p>
+        <input type="text" name="update" required="" maxlength="20" autocomplete="off">
+        <button type="submit" name="button_update_value_inv_code"> Update </button>
+    </form>
+    </br>
+    <form method="POST" action="/main_admin">
+        <p>Enter the base points to join rulate</p>
+        <input type="number" name="update" required="" maxlength="20" autocomplete="off">
+        <button type="submit" name="button_update_value_rulate"> Update </button>
+    </form>
+  </div>
+
+
+</div>
+
+
+<div id="data" style="display:none">
+  
+  <h1> Choose which data you want to see</h1>
+    <div id="a"> 
+      <div class="aa"><p> <input type="checkbox" value="admin_show" name="box" onClick="onlyOneAdminChoose(this)"/>Show admins table</p></div>
+      <div class="aa"><p> <input type="checkbox" value="gmail_show" name="box" onClick="onlyOneAdminChoose(this)"/>Show gmails table</p></div>
+      <div class="aa"><p> <input type="checkbox" value="prize_show" name="box" onClick="onlyOneAdminChoose(this)"/>Show prize table</p></div>
+      <div class="aa"><p> <input type="checkbox" value="admin_code" name="box" onClick="onlyOneAdminChoose(this)"/>Show admins codes</p></div>
+    </div>
+
+    <div id="admin_show" style="display:none">
+        <table>
+          <tr>
+            <th>Username</th>
+            <th>Password</th>
+          </tr> 
+        {% for item in adminT %} 
+          <tr>
+              <td>{{item.0}}</td> 
+              <td>{{item.1}}</td>
+          </tr>
+        {% endfor %}
+      </table>
+       </div>
+
+       <div id="gmail_show" style="display:none">
+        <table>
+          <tr>
+            <th>Admin or system</th>
+            <th>User Email</th>
+            <th>Text</th>
+            <th>System email</th>
+          </tr> 
+        {% for item in GmailT %} 
+          <tr>
+              <td>{{item.0}}</td> 
+              <td>{{item.1}}</td>
+              <td>{{item.2}}</td>
+              <td>{{item.3}}</td>
+          </tr>
+        {% endfor %}
+      </table>
+       </div>
+
+       <div id="prize_show" style="display:none">
+        <table>
+          <tr>
+            <th>Product name</th>
+            <th>Amount</th>
+          </tr> 
+        {% for item in rulateT %} 
+          <tr>
+              <td>{{item.1}}</td> 
+              <td>{{item.2}}</td>
+          </tr>
+        {% endfor %}
+      </table>
+       </div>
+       
+       
+       <div id="admin_codes" style="display:none">
+        <table>
+          <tr>
+            <th>Main admin login code</th>
+            <th>Admins login code</th>
+            <th>Amount of points to use rulate</th>
+          </tr> 
+        {% for item in codeT %} 
+          <tr>
+              <td>{{item.1}}</td> 
+              <td>{{item.2}}</td>
+              <td>{{item.3}}</td>
+          </tr>
+        {% endfor %}
+      </table>
+       </div>  
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+document.getElementById('CheckType').addEventListener('click', e => { 
+    var value = e.target.value;
+    if (value=="func"){
+      document.getElementById("func").style.display = "block";
+      document.getElementById("data").style.display = "none";
+    }
+    if (value=="data"){
+      document.getElementById("func").style.display = "none";
+      document.getElementById("data").style.display = "block";
+  
+    } 
+  })
+  
+
+
+
+function onlyOneAdminChoose(checkbox) { //manuipulation with forms
+    var checkboxes = document.getElementsByName('box');
+    var vrible = 0;
+    checkboxes.forEach((item) => {
+        if (item !== checkbox) {
+          item.checked = false;
+        }
+        else{
+          vrible=item.value ;
+        }
+    })
+    if(vrible == "delete_admin"){
+      //acts
+      document.getElementById('MyFormAdmin').style.display="block";
+      document.getElementById('MyFormPrize').style.display="none";
+      document.getElementById('MyFormInsertValues').style.display="none";
+      document.getElementById('MyFormUpdateValues').style.display="none";
+
+      //data
+      document.getElementById('admin_show').style.display="none";
+      document.getElementById('gmail_show').style.display="none";
+      document.getElementById('prize_show').style.display="none";
+      document.getElementById('admin_codes').style.display="none";
+    }
+    else if(vrible == "insert_code"){
+      //acts
+      document.getElementById('MyFormAdmin').style.display="none";
+      document.getElementById('MyFormPrize').style.display="none";
+      document.getElementById('MyFormInsertValues').style.display="block";
+      document.getElementById('MyFormUpdateValues').style.display="none";
+      //data
+      document.getElementById('admin_show').style.display="none";
+      document.getElementById('gmail_show').style.display="none";
+      document.getElementById('prize_show').style.display="none";
+      document.getElementById('admin_codes').style.display="none";
+    }
+    else if(vrible == "update_code"){
+        //acts
+        document.getElementById('MyFormAdmin').style.display="none";
+        document.getElementById('MyFormPrize').style.display="none";
+        document.getElementById('MyFormInsertValues').style.display="none";
+        document.getElementById('MyFormUpdateValues').style.display="block";
+        //data
+        document.getElementById('admin_show').style.display="none";
+        document.getElementById('gmail_show').style.display="none";
+        document.getElementById('prize_show').style.display="none";
+        document.getElementById('admin_codes').style.display="none";
+      }
+      else if(vrible == "add_prize"){
+        //acts
+        document.getElementById('MyFormAdmin').style.display="none";
+        document.getElementById('MyFormPrize').style.display="block";
+        document.getElementById('MyFormInsertValues').style.display="none";
+        document.getElementById('MyFormUpdateValues').style.display="none";
+        //data
+        document.getElementById('admin_show').style.display="none";
+        document.getElementById('gmail_show').style.display="none";
+        document.getElementById('prize_show').style.display="none";
+        document.getElementById('admin_codes').style.display="none";
+      }
+      else if(vrible == "admin_show"){
+        //acts
+        document.getElementById('MyFormAdmin').style.display="none";
+        document.getElementById('MyFormPrize').style.display="none";
+        document.getElementById('MyFormInsertValues').style.display="none";
+        document.getElementById('MyFormUpdateValues').style.display="none";
+        //data
+        document.getElementById('admin_show').style.display="block";
+        document.getElementById('gmail_show').style.display="none";
+        document.getElementById('prize_show').style.display="none";
+        document.getElementById('admin_codes').style.display="none";
+      }
+      else if(vrible == "gmail_show"){
+        //acts
+        document.getElementById('MyFormAdmin').style.display="none";
+        document.getElementById('MyFormPrize').style.display="none";
+        document.getElementById('MyFormInsertValues').style.display="none";
+        document.getElementById('MyFormUpdateValues').style.display="none";
+        //data
+        document.getElementById('admin_show').style.display="none";
+        document.getElementById('gmail_show').style.display="block";
+        document.getElementById('prize_show').style.display="none";
+        document.getElementById('admin_codes').style.display="none";
+      }
+      else if(vrible == "prize_show"){
+        //acts
+        document.getElementById('MyFormAdmin').style.display="none";
+        document.getElementById('MyFormPrize').style.display="none";
+        document.getElementById('MyFormInsertValues').style.display="none";
+        document.getElementById('MyFormUpdateValues').style.display="none";
+        //data
+        document.getElementById('admin_show').style.display="none";
+        document.getElementById('gmail_show').style.display="none";
+        document.getElementById('prize_show').style.display="block";
+        document.getElementById('admin_codes').style.display="none";
+      }
+      else if(vrible=="admin_code"){
+        //acts
+        document.getElementById('MyFormAdmin').style.display="none";
+        document.getElementById('MyFormPrize').style.display="none";
+        document.getElementById('MyFormInsertValues').style.display="none";
+        document.getElementById('MyFormUpdateValues').style.display="none";
+        //data
+        document.getElementById('admin_show').style.display="none";
+        document.getElementById('gmail_show').style.display="none";
+        document.getElementById('prize_show').style.display="none";
+        document.getElementById('admin_codes').style.display="block";
+      }
+    
+}
+
+
+
+function preventBack() {
+  window.history.forward(); 
+}
+
+setTimeout("preventBack()", 0);
+
+window.onunload = function () { null };
+
+</script>
+
+
+{% endblock %}

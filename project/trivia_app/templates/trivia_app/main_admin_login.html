@@ -1,0 +1,39 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+{% block title  %} Login Page {% endblock %}
+{% block head_files %}
+<link rel="stylesheet" href="">
+{% endblock %}
+
+
+{% block content %}
+
+<form method="POST" action="/main_admin_login">
+    <button name="login_p" type="submit">User page</button>
+</form>
+
+<div class="main" style="border: 5px solid #FFFF00;text-align: center;top:40%;">
+</br>
+    <p>Enter the code to log in into Main admin panel (if used first time you can login without code)</p>
+    <form method="POST" action="/main_admin_login">
+        <input id="code" type="text" name="code" autocomplete="off" placeholder="Code">
+        <button name="login" type="submit">Login</button>
+      <p>{{return}}</p>
+    </form>
+</div>
+
+<script>
+
+function preventBack() {
+    window.history.forward(); 
+}
+  
+setTimeout("preventBack()", 0);
+  
+window.onunload = function () { null };
+</script>
+
+
+{% endblock %}

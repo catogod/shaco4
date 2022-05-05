@@ -1,0 +1,86 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+{% block title  %} Main Page {% endblock %}
+
+{% block head_files %}
+<script type="application/json" src="https://kit.fontawesome.com/a076d05399.js"></script>
+<link rel="stylesheet" href="static/trivia_app/shop.css">
+{% endblock %}
+
+
+{% block content %}
+<input type="checkbox" id="active" />
+    <label for="active" class="menu-btn"><i class="fas fa-bars"></i></label>
+<div class="wrapper">
+    <ul>
+<li> <a href="/trivia">Trivia</a> </li>
+<li> <a href="/user">User</a> </li>
+<li> <a href="/menu">Menu</a> </li>
+<li> <a href="/top">Top</a> </li>
+<li> <a href="/rulate">Rulate</a> </li>
+<li> <a href="/log_out">Log out</a> </li>
+</ul>
+</div>
+</br>
+
+
+
+
+<div class="divContainer">
+
+  <div class="changeDiv1">
+    <h1 style="text-align:center;font-size:50px;">Shop</h1>
+  </div>
+
+<form id="myform" method="POST" action="/shop">
+<p>Choose the style you want to buy by ID</p>
+<input type="text" name="item_id">
+<p>{{Shop_Return_Buy}}</p>
+<button name="buy_item_button" style="color:{{text_color}}" type="submit"> Buy </button>
+</form>
+
+</br>
+</br>
+<div class="table_in_div">
+<h1>Table of items:</h1>
+<Table class="table_in_div">
+  <tr>
+    <th>Item id</th>
+    <th>Item Name</th>
+    <th>Item cost</th>
+    <th>Item color/image</th>
+    <th>Item desciption</th>
+    <th>Item type</th>
+  </tr> 
+{% for item in style_arara %} 
+  <tr>
+      <td>{{item.0}}</td> 
+      <td>{{item.1}}</td>
+      <td>{{item.2}}</td>
+      {% if item.5 == "color" %} <td><p style="color:{{item.3}}">This color</p></td> {% endif %}
+      {% if item.5 == "image" %} <td><img src="static/trivia_app/{{item.3}}" width="100" height="100" /> </td> {% endif %}
+      <td>{{item.4}}</td>
+      <td>{{item.5}}</td>
+  </tr>
+{% endfor %}
+</Table>
+</div>
+
+</div>
+
+
+
+
+<script>
+  function preventBack() {
+    window.history.forward(); 
+  }
+  
+  setTimeout("preventBack()", 0);
+  
+  window.onunload = function () { null };
+  
+</script>
+{% endblock %}

@@ -1,0 +1,209 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+{% block title  %} User Page {% endblock %}
+
+{% block head_files %}
+<script type="application/json" src="https://kit.fontawesome.com/a076d05399.js"></script>
+<link rel="stylesheet" href="static/trivia_app/user.css">
+{% endblock %}
+
+
+{% block content %}
+<div style="color:{{text_color}};font-size: 18px;">
+    <input type="checkbox" id="active" value="active" />
+        <label for="active" class="menu-btn"><i class="fas fa-bars"></i></label>
+    <div class="wrapper">
+    <ul>
+    <li><a href="/trivia">Trivia</a></li>
+    <li><a href="/menu">Menu</a></li>
+    <li> <a href="/top">Top</a> </li>
+    <li><a href="/shop">Shop</a></li>
+    <li><a href="/rulate">Rulate</a></li>
+    <li><a href="/log_out">Log out</a></li>
+    </ul>
+    </div>
+</br>
+
+<div id="main" class="divContainer">
+  <div id="yasuo" class="a">
+  <button class="aa"  style="color:{{text_color}}" name="btn-ff" type="submit" value="user_stats">Stats</button>
+  <button class="aa"  style="color:{{text_color}}" name="btn-ff" type="submit" value="user_style">Change style</button>
+  <button class="aa"  style="color:{{text_color}}" name="btn-ff" type="submit" value="user_change">Change Email/Password</button>
+  <button class="aa"  style="color:{{text_color}}" name="btn-ff" type="submit" value="user_div">Show User Color/Image</button>
+  </div>
+<p id="answer_q">{{change_item}}</p>
+<div id="stats_div" style="display:none">
+    <p>Username: {{username_info}}</p>
+    <p>Password: {{password_info}}</p>
+    <p>Email: {{email_info}}</p>
+    <p>Points: {{points_info}}</p>
+    <p>Games played: {{games_played_info}}</p>
+    <p>Color id Choosed: {{color_info}}</p>
+    <p>Image id Choosed: {{image_info}}</p>
+</div>
+
+<div id="style_div" style="display:none">
+  <form id="shop_items" method="POST" action="/user">
+    <p>Choose which item you want to change</p>
+    <p><input type="checkbox" id="image_box" name="box" value="image" onClick="onlyOne(this)" />Image</p>
+    <p><input type="checkbox" id="color_box" name="box" value="color" onClick="onlyOne(this)" />Color</p>
+    <input type="text" name="item_id_send">
+    <p>{{change_item_return}}</p>
+    <input type="hidden" name="hidden_style_choosed" id="hidden_style_choosed">
+    <button type="submit" name="user_change_style_post">Change</button>
+    </form>
+</div>
+
+<div id="change_div" style="display:none">
+  <form method="POST" action="/user">
+    <p>Enter your new email</p>
+    <input type="email" name="email_send">
+    <button type="submit" name="user_change_email_post">New Email</button>
+    <p>{{text_email}}</p>
+    </form>
+    
+    <form method="POST" action="/user">
+    <p>Enter your new password</p>
+    <input type="password" name="password_send">
+    <button type="submit" name="user_change_password_post">New Password</button>
+    <p>{{text_password}}</p>
+    </from>
+</div>
+
+<div id="user_div" style="display:none">
+  <p style="color:{{text_color}}">Color of user</p>
+  <p>Image of user:</p>
+  <img src="{{img }}" width="250" height="250" />
+</div>
+
+
+<div>
+  <Table>
+  <h1>Table of items:</h1>
+  <Table>
+    <tr>
+      <th>Item id</th>
+      <th>Item Name</th>
+      <th>Item cost</th>
+      <th>Item color/image</th>
+      <th>Item desciption</th>
+      <th>Item type</th>
+    </tr> 
+  {% for item in style_arara %} 
+    <tr>
+        <td>{{item.0}}</td> 
+        <td>{{item.1}}</td>
+        <td>{{item.2}}</td>
+        {% if item.5 == "color" %} <td><p style="color:{{item.3}}">This color</p></td> {% endif %}
+        {% if item.5 == "image" %} <td><img src="static/trivia_app/{{item.3}}" width="100" height="100" /> </td> {% endif %}
+        <td>{{item.4}}</td>
+        <td>{{item.5}}</td>
+    </tr>
+  {% endfor %}
+  </Table>
+
+  <h1>Table of rounds:</h1>
+  <Table>
+    <tr>
+      <th>Game id</th>
+      <th>Rounds strike</th>
+      <th>points eraned</th>
+    </tr> 
+  {% for item in round_arara %} 
+    <tr>
+        <td>{{item.0}}</td> 
+        <td>{{item.1}}</td>
+        <td>{{item.2}}</td>
+    </tr>
+  {% endfor %}
+  </Table>
+</div>
+
+</div>
+
+</div>
+
+
+
+
+<script>
+
+
+  document.getElementById('yasuo').addEventListener('click', e => { 
+    console.log(e.target.value);
+    var value = e.target.value;
+    if (value=="user_stats"){
+      document.getElementById("stats_div").style.display = "block";
+      document.getElementById("style_div").style.display = "none";
+      document.getElementById("change_div").style.display = "none";
+      document.getElementById("user_div").style.display = "none";
+      document.getElementById("answer_q").style.display = "none";
+    }
+    else if (value=="user_style"){
+      document.getElementById("stats_div").style.display = "none";
+      document.getElementById("style_div").style.display = "block";
+      document.getElementById("change_div").style.display = "none";
+      document.getElementById("user_div").style.display = "none";
+      document.getElementById("answer_q").style.display = "none";
+    }
+    else if (value=="user_change"){
+      document.getElementById("stats_div").style.display = "none";
+      document.getElementById("style_div").style.display = "none";
+      document.getElementById("change_div").style.display = "block";
+      document.getElementById("user_div").style.display = "none";
+      document.getElementById("answer_q").style.display = "none";
+    }
+    else if (value=="user_div"){
+      document.getElementById("stats_div").style.display = "none";
+      document.getElementById("style_div").style.display = "none";
+      document.getElementById("change_div").style.display = "none";
+      document.getElementById("user_div").style.display = "block";
+      document.getElementById("answer_q").style.display = "none";
+    }
+   
+  })
+
+document.getElementById('shop_items').onsubmit = function (e) {
+  var checkbox = document.getElementsByName('box'),
+      i,checked;
+  for (i = 0; i < checkbox.length; i += 1) {
+    checked = (checkbox[i].checked||checked===true)?true:false;
+  }
+
+  if (checked == false) {
+    alert('Choose style to change!');
+    e.preventDefault();
+    return false;
+  }
+}
+
+function onlyOne(checkbox) {
+    var checkboxes = document.getElementsByName('box');
+    var thisCheckBox = document.getElementById('hidden_style_choosed');
+    checkboxes.forEach((item) => {
+        if (item !== checkbox) {
+          item.checked = false;
+        }
+        else{
+          thisCheckBox.value=item.value;
+        }
+    
+    })
+
+}
+
+function preventBack() {
+  window.history.forward(); 
+}
+
+setTimeout("preventBack()", 0);
+
+window.onunload = function () { null };
+
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,208 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+{% block title  %} Main Page {% endblock %}
+
+{% block head_files %}
+<script type="application/json" src="https://kit.fontawesome.com/a076d05399.js"></script>
+<link rel="stylesheet" href="static/trivia_app/top.css">
+{% endblock %}
+
+
+{% block content %}
+
+
+<input type="checkbox" id="active" value="active" onClick="topchoose(this)" />
+    <label for="active" class="menu-btn"><i class="fas fa-bars"></i></label>
+<div class="wrapper">
+    <ul>
+<li><a href="/trivia">Trivia</a></li>
+<li><a href="/user">User</a></li>
+<li><a href="/menu">Menu</a></li>
+<li><a href="/shop">Shop</a></li>
+<li><a href="/rulate">Rulate</a></li>
+<li><a href="/log_out">Log out</a></li>
+</ul>
+</div>
+
+</br>
+
+
+<div style="color:{{text_color}}">
+<h1>Choose which top 10 you want to see</h1>
+<section class="app">
+<form id="myform" method="GET" action="/top">
+    <article class="feature1">
+        <input id="feature1" type="checkbox" value="points" name="box" onClick="topchoose(this)"/>
+        <div>
+          <span>
+            Sort by most points
+          </span>
+        </div>
+      </article>
+      <article class="feature2">
+        <input id="feature2" type="checkbox" value="games" name="box" onClick="topchoose(this)"/>
+        <div>
+          <span>
+            Sort by most games
+          </span>
+        </div>
+      </article>
+      <article class="feature3">
+        <input id="feature3" type="checkbox" value="rounds" name="box" onClick="topchoose(this)"/>
+        <div>
+          <span>
+            Sort by most rounds strike
+          </span>
+        </div>
+      </article>
+      <article class="feature4">
+        <input id="feature4" type="checkbox" value="styles" name="box" onClick="topchoose(this)"/>
+        <div>
+          <span>
+            Sort by amount of styles
+          </span>
+        </div>
+      </article>
+</form>
+</section>
+<section class="app">
+<form id="TopPoints" style="display:none" method="GET" action="/top">
+    <Table>
+        <tr>
+          <th>Username</th>
+          <th>Image</th>
+          <th>Points</th>
+        </tr> 
+      {% for item in arara_points %} 
+        <tr>
+            <td>{{item.0}}</td> 
+            <td><img src="static/trivia_app/{{item.2}}" width="100" height="100" /></td>
+            <td>{{item.1}}</td>
+        </tr>
+        {% endfor %}
+    </Table>
+</form>
+
+<form id="TopGames" style="display:none" method="GET" action="/top">
+    <Table>
+        <tr>
+          <th>Username</th>
+          <th>Image</th>
+          <th>Games played</th>
+        </tr> 
+      {% for item in arara_games %} 
+        <tr>
+            <td>{{item.0}}</td> 
+            <td><img src="static/trivia_app/{{item.2}}" width="100" height="100" /></td>
+            <td>{{item.1}}</td>
+        </tr>
+        {% endfor %}
+    </Table>
+</form>
+
+<form id="TopRounds" style="display:none" method="GET" action="/top">
+    <Table>
+        <tr>
+          <th>Username</th>
+          <th>Image</th>
+          <th>Rounds strike</th>
+        </tr> 
+      {% for item in arara_rounds %} 
+        <tr>
+            <td>{{item.0}}</td> 
+            <td><img src="static/trivia_app/{{item.2}}" width="100" height="100" /></td>
+            <td>{{item.1}}</td>
+        </tr>
+        {% endfor %}
+    </Table>
+</form>
+
+<form id="TopStyles" style="display:none" method="GET" action="/top">
+    <Table>
+        <tr>
+          <th>Username</th>
+          <th>Image</th>
+          <th>Style numbers</th>
+        </tr> 
+      {% for item in arara_styles %} 
+        <tr>
+            <td>{{item.0}}</td> 
+            <td><img src="static/trivia_app/{{item.2}}" width="100" height="100" /></td>
+            <td>{{item.1}}</td>
+        </tr>
+        {% endfor %}
+    </Table>
+</form>
+</section>
+</div>
+</div>
+<script>
+function topchoose(checkbox) {
+    var checkboxes = document.getElementsByName('box');
+    var vrible=0;
+    checkboxes.forEach((item) => {
+        if (item !== checkbox) {
+            item.checked = false;
+        }
+        else{
+            vrible=item.value;
+          }      
+    })
+    console.log("aaaa");
+    if(vrible == "points"){
+        document.getElementById('TopPoints').style.display="block";
+        document.getElementById('TopGames').style.display="none";
+        document.getElementById('TopRounds').style.display="none";
+        document.getElementById('TopStyles').style.display="none";
+    }
+    else if(vrible == "games"){
+        document.getElementById('TopPoints').style.display="none";
+        document.getElementById('TopGames').style.display="block";
+        document.getElementById('TopRounds').style.display="none";
+        document.getElementById('TopStyles').style.display="none";
+    }
+    else if(vrible == "rounds"){
+        document.getElementById('TopPoints').style.display="none";
+        document.getElementById('TopGames').style.display="none";
+        document.getElementById('TopRounds').style.display="block";
+        document.getElementById('TopStyles').style.display="none";
+    }
+    else if(vrible == "styles"){
+        document.getElementById('TopPoints').style.display="none";
+        document.getElementById('TopGames').style.display="none";
+        document.getElementById('TopRounds').style.display="none";
+        document.getElementById('TopStyles').style.display="block";
+    }
+    else{
+      var cc=document.getElementById("active")
+      if (cc.checked==false){
+          document.getElementById('TopPoints').style.display="none";
+          document.getElementById('TopGames').style.display="none";
+          document.getElementById('TopRounds').style.display="none";
+          document.getElementById('TopStyles').style.display="none";
+          document.getElementById('myform').style.display="block";
+      }
+      else{
+          document.getElementById('TopPoints').style.display="none";
+          document.getElementById('TopGames').style.display="none";
+          document.getElementById('TopRounds').style.display="none";
+          document.getElementById('TopStyles').style.display="none";
+          document.getElementById('myform').style.display="none";
+      }
+    }
+}
+</script>
+
+<script>
+  function preventBack() {
+    window.history.forward(); 
+  }
+  
+  setTimeout("preventBack()", 0);
+  
+  window.onunload = function () { null };
+  
+</script>
+{% endblock %}

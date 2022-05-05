@@ -1,0 +1,17 @@
+#a{
+    display:table;
+    width: 100%;
+}
+.aa{
+    display: table-cell;
+    border-style: solid;
+}
+
+table, th, td {
+    border: 1px solid black;
+  }
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+

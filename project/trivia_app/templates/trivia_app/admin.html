@@ -1,0 +1,523 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+{% block title  %} Trivia Page {% endblock %}
+
+{% block head_files %}
+<link rel="stylesheet" href="static/trivia_app/admin.css">
+{% endblock %}
+
+
+{% block content %}
+
+<form method="GET" action="/log_out">
+  <button type="submit">log out</button>
+  </form>
+
+<div id="CheckType">
+    <button class="btnChoose" name="btn-ff" type="submit" value="func" >Show Admin Functions</button>
+    <button class="btnChoose" name="btn-ff" type="submit" value="data" >Show Data Base</button>
+    <p>{{return_answer}}</p>
+
+<div id="func" style="display:none">
+
+<h1> Choose what you want to change</h1>
+<form id="myform" method="GET" action="/admin">
+  <div id="a"> 
+    <div class="aa"><p> <input type="checkbox" value="trivia_add" name="box" onClick="onlyOneAdminChoose(this)"/>Add trivia question</p></div>
+    <div class="aa"><p> <input type="checkbox" value="style_add" name="box" onClick="onlyOneAdminChoose(this)"/>Add style item</p></div>
+    <div class="aa"><p> <input type="checkbox" value="trivia_delete" name="box" onClick="onlyOneAdminChoose(this)"/>Delete trivia question</p></div>
+    <div class="aa"><p> <input type="checkbox" value="style_delete" name="box" onClick="onlyOneAdminChoose(this)"/>Delete style item</p></div>
+    <div class="aa"><p> <input type="checkbox" value="user" name="box" onClick="onlyOneAdminChoose(this)"/>Delete user and all his data</p></div>
+    <div class="aa"><p> <input type="checkbox" value="add_admin" name="box" onClick="onlyOneAdminChoose(this)"/>Send admin register code to email</p></div>
+  </div>
+</form>
+
+
+<form id="MyFormStyle_add" style="display:none" method="POST" action="/admin" enctype="multipart/form-data">
+<h3>Add style item</h3>
+<p>Item ID - auto</p>
+<p>name:</p>
+<input type="text" name="name">
+<p>cost:</p>
+<input type="text" name="cost">
+<p>url(if no image):</p>
+<input type="hidden" id="url" name="url" required>
+<p>description:</p>
+<input type="text" name="description">
+<p>Choose type</p>
+<p> <input type="checkbox" name="boox" value="image" onClick="onlyOneImageOrColor(this)" /> Image</p>
+<p> <input type="checkbox" name="boox" value="color" onClick="onlyOneImageOrColor(this)" /> Color</p>
+<input type="hidden" id="image_send" name="image_send">
+<input type="hidden" id="hid_type" name="hid_type" value="None">
+<button type="submit" name="button_add_style"> click </button>
+</form>
+
+<form id="MyFormStyle_delete" style="display:none" method="POST" action="/admin" >
+<h3>Delete Style by id</h3>
+<p>Style id:</p>
+<input type="text" name="style_delete">
+<button type="submit" name="button_delete_style"> click </button>
+</form>
+
+<form id="MyFormTrivia_delete" style="display:none" method="POST" action="/admin">
+  <h3>Delete Trivia Question</h3>
+  <p>question id:</p>
+  <input type="text" name="question_delete">
+  <button type="submit" name="button_delete_question"> click </button>
+</form>
+
+<form id="MyFormAdd_admin" style="display:none" method="POST" action="/admin">
+  <h3>Send admin register code to email</h3>
+  <p>Email:</p>
+  <input type="text" name="email_address">
+  <button type="submit" name="button_add_admin"> click </button>
+</form>
+
+<form id="MyFormTrivia_add" style="display:none" method="POST" action="/admin">
+  <h3>Add Trivia Question</h3>
+  <p>question code - auto</p>
+  <p>answer:</p>
+  <div id="a"> 
+    <div class="aa"><p><input type="checkbox" name="box_q" value="1" onClick="onlyOneAdminChoose_answer(this)" /> Answer 1</p></div>
+    <div class="aa"><p><input type="checkbox" name="box_q" value="2" onClick="onlyOneAdminChoose_answer(this)" /> Answer 2</p></div>
+    <div class="aa"><p><input type="checkbox" name="box_q" value="3" onClick="onlyOneAdminChoose_answer(this)" /> Answer 3</p></div>
+    <div class="aa"><p><input type="checkbox" name="box_q" value="4" onClick="onlyOneAdminChoose_answer(this)" /> Answer 4</p></div>
+    <input type="hidden" id="hid_answer" name="hid_answer" value="">
+  </div>
+  <p>question:</p>
+  <input type="text" name="question">
+  <p>answer1:</p>
+  <input type="text" name="answer1">
+  <p>answer2:</p>
+  <input type="text" name="answer2">
+  <p>answer3:</p>
+  <input type="text" name="answer3">
+  <p>answer4:</p>
+  <input type="text" name="answer4">
+  <button type="submit" name="button_add_trivia_text"> click </button>
+</form>
+
+<form id="MyFormUser" style="display:none" method="POST" action="/admin">
+  <h5>Delete User by username</h5>
+  <p>Enter username:</p>
+  <input type="text" name="username_find">
+  <button type="submit" name="button_delete_user"> click </button>
+</form>
+
+</div>
+
+
+<div id="data" style="display:none">
+  
+  <h1> Choose which data you want to see</h1>
+    <div id="a"> 
+      <div class="aa"><p> <input type="checkbox" value="user_show" name="box" onClick="onlyOneAdminChoose(this)"/>Show users table</p></div>
+      <div class="aa"><p> <input type="checkbox" value="trivia_show" name="box" onClick="onlyOneAdminChoose(this)"/>Show trivia question</p></div>
+      <div class="aa"><p> <input type="checkbox" value="games_show" name="box" onClick="onlyOneAdminChoose(this)"/>Show games</p></div>
+      <div class="aa"><p> <input type="checkbox" value="rounds_show" name="box" onClick="onlyOneAdminChoose(this)"/>Show rounds</p></div>
+      <div class="aa"><p> <input type="checkbox" value="style_show" name="box" onClick="onlyOneAdminChoose(this)"/>Show styles</p></div>
+    </div>
+
+    <div id="user_table" style="display:none"> 
+      <table>
+        <tr>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Email</th>
+          <th>Points</th>
+        </tr> 
+      {% for item in user_show %} 
+        <tr>
+            <td>{{item.1}}</td> 
+            <td>{{item.2}}</td>
+            <td>{{item.3}}</td>
+            <td>{{item.4}}</td>
+        </tr>
+      {% endfor %}
+      </table>
+     </div>
+
+
+
+
+    <div id="trivia_table" style="display:none">
+      <table>
+        <tr>
+          <th>Question id</th>
+          <th>Correct answer</th>
+          <th>Question</th>
+          <th>Answer 1</th>
+          <th>Answer 2</th>
+          <th>Answer 3</th>
+          <th>Answer 4</th>
+        </tr> 
+      {% for item in trivia_show %} 
+        <tr>
+            <td>{{item.0}}</td> 
+            <td>{{item.1}}</td>
+            <td>{{item.2}}</td>
+            <td>{{item.3}}</td>
+            <td>{{item.4}}</td>
+            <td>{{item.5}}</td>
+            <td>{{item.6}}</td>
+        </tr>
+      {% endfor %}
+    </table>
+     </div>
+
+
+
+
+
+    <div id="games_table" style="display:none">
+      <table>
+        <tr>
+          <th>Gmaes_id</th>
+          <th>Username</th>
+  
+        </tr> 
+      {% for item in games_show %} 
+        <tr>
+            <td>{{item.0}}</td> 
+            <td>{{item.1}}</td>
+        </tr>
+      {% endfor %}
+    </table>
+     </div>
+
+
+ 
+
+
+  <div id="rounds_table" style="display:none">
+    <table>
+      <tr>
+        <th>Game_id</th>
+        <th>Question_id</th>
+        <th>Answer</th>
+      </tr> 
+    {% for item in rounds_show %} 
+      <tr>
+          <td>{{item.0}}</td> 
+          <td>{{item.1}}</td>
+          <td>{{item.2}}</td>
+      </tr>
+    {% endfor %}
+  </table>
+   </div>
+
+
+
+
+    <div id="style_table" style="display:none">
+      <table>
+        <tr>
+          <th>Item id</th>
+          <th>Item Name</th>
+          <th>Item cost</th>
+          <th>Item color/image</th>
+          <th>Item desciption</th>
+          <th>Item type</th>
+        </tr> 
+      {% for item in style_show %} 
+        <tr>
+            <td>{{item.0}}</td> 
+            <td>{{item.1}}</td>
+            <td>{{item.2}}</td>
+            {% if item.5 == "color" %} <td><p style="color:{{item.3}}">This color</p></td> {% endif %}
+            {% if item.5 == "image" %} <td><img src="static/trivia_app/{{item.3}}" width="100" height="100" /> </td> {% endif %}
+            <td>{{item.4}}</td>
+            <td>{{item.5}}</td>
+        </tr>
+      {% endfor %}
+      </table>
+     </div>
+ 
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+document.getElementById('CheckType').addEventListener('click', e => { 
+    console.log(e.target.value);
+    var value = e.target.value;
+    if (value=="func"){
+      document.getElementById("func").style.display = "block";
+      document.getElementById("data").style.display = "none";
+    }
+    if (value=="data"){
+      document.getElementById("func").style.display = "none";
+      document.getElementById("data").style.display = "block";
+  
+    } 
+  })
+  
+
+
+
+
+
+document.getElementById('MyFormStyle').onsubmit = function (e) { // checks if admin choosed image or color
+  var checkbox = document.getElementsByName("boox"),
+      i,
+      checked;
+  for (i = 0; i < checkbox.length; i += 1) {
+    checked = (checkbox[i].checked||checked===true)?true:false;
+  }
+
+  if (checked == false) {
+    alert('Check Something!');
+    e.preventDefault();
+    return false;
+  }
+}
+
+document.getElementById('MyFormTrivia_add').onsubmit = function (e) { // checks if admin choosed answer
+  var checkbox = document.getElementsByName("box_q"),
+      i,
+      checked;
+  for (i = 0; i < checkbox.length; i += 1) {
+    checked = (checkbox[i].checked||checked===true)?true:false;
+  }
+
+  if (checked == false) {
+    alert('Check Something!');
+    e.preventDefault();
+    return false;
+  }
+}
+
+function onlyOneAdminChoose_answer(checkbox) { //manuipulation with forms
+  var checkboxes = document.getElementsByName('box_q');
+  var vrible = 0;
+  checkboxes.forEach((item) => {
+      if (item !== checkbox) {
+        item.checked = false;
+      }
+      else{
+        vrible=item.value ;
+      }
+  })
+  var hiddenid = document.getElementById('hid_answer');
+  hiddenid.value=vrible;//the answer id
+}
+
+
+function onlyOneAdminChoose(checkbox) { //manuipulation with forms
+    var checkboxes = document.getElementsByName('box');
+    var vrible = 0;
+    checkboxes.forEach((item) => {
+        if (item !== checkbox) {
+          item.checked = false;
+        }
+        else{
+          vrible=item.value ;
+        }
+    })
+    if(vrible == "trivia_add"){
+      //acts
+      document.getElementById('MyFormStyle_add').style.display="none";
+      document.getElementById('MyFormTrivia_add').style.display="block";
+      document.getElementById('MyFormStyle_delete').style.display="none";
+      document.getElementById('MyFormTrivia_delete').style.display="none";
+      document.getElementById('MyFormUser').style.display="none";
+      document.getElementById('MyFormAdd_admin').style.display="none";
+      //data
+      document.getElementById('user_table').style.display="none";
+      document.getElementById('trivia_table').style.display="none";
+      document.getElementById('games_table').style.display="none";
+      document.getElementById('rounds_table').style.display="none";
+      document.getElementById('style_table').style.display="none";
+    }
+    else if(vrible == "trivia_delete"){
+      //acts
+      document.getElementById('MyFormStyle_add').style.display="none";
+      document.getElementById('MyFormTrivia_add').style.display="none";
+      document.getElementById('MyFormStyle_delete').style.display="none";
+      document.getElementById('MyFormTrivia_delete').style.display="block";
+      document.getElementById('MyFormUser').style.display="none";
+      document.getElementById('MyFormAdd_admin').style.display="none";
+      //data
+      document.getElementById('user_table').style.display="none";
+      document.getElementById('trivia_table').style.display="none";
+      document.getElementById('games_table').style.display="none";
+      document.getElementById('rounds_table').style.display="none";
+      document.getElementById('style_table').style.display="none";
+    }
+    else if(vrible == "style_add"){
+      //acts
+      document.getElementById('MyFormStyle_add').style.display="block";
+      document.getElementById('MyFormTrivia_add').style.display="none";
+      document.getElementById('MyFormStyle_delete').style.display="none";
+      document.getElementById('MyFormTrivia_delete').style.display="none";
+      document.getElementById('MyFormUser').style.display="none";
+      document.getElementById('MyFormAdd_admin').style.display="none";
+      //data
+      document.getElementById('user_table').style.display="none";
+      document.getElementById('trivia_table').style.display="none";
+      document.getElementById('games_table').style.display="none";
+      document.getElementById('rounds_table').style.display="none";
+      document.getElementById('style_table').style.display="none";
+    }
+    else if(vrible == "style_delete"){
+      //acts
+      document.getElementById('MyFormStyle_add').style.display="none";
+      document.getElementById('MyFormTrivia_add').style.display="none";
+      document.getElementById('MyFormStyle_delete').style.display="block";
+      document.getElementById('MyFormTrivia_delete').style.display="none";
+      document.getElementById('MyFormUser').style.display="none";
+      document.getElementById('MyFormAdd_admin').style.display="none";
+      //data
+      document.getElementById('user_table').style.display="none";
+      document.getElementById('trivia_table').style.display="none";
+      document.getElementById('games_table').style.display="none";
+      document.getElementById('rounds_table').style.display="none";
+      document.getElementById('style_table').style.display="none";
+    }
+    else if(vrible == "user"){
+      //acts
+      document.getElementById('MyFormStyle_add').style.display="none";
+      document.getElementById('MyFormTrivia_add').style.display="none";
+      document.getElementById('MyFormStyle_delete').style.display="none";
+      document.getElementById('MyFormTrivia_delete').style.display="none";
+      document.getElementById('MyFormUser').style.display="block";
+      document.getElementById('MyFormAdd_admin').style.display="none";
+      //data
+      document.getElementById('user_table').style.display="none";
+      document.getElementById('trivia_table').style.display="none";
+      document.getElementById('games_table').style.display="none";
+      document.getElementById('rounds_table').style.display="none";
+      document.getElementById('style_table').style.display="none";
+    }
+    else if(vrible == "add_admin"){
+      //acts
+      document.getElementById('MyFormStyle_add').style.display="none";
+      document.getElementById('MyFormTrivia_add').style.display="none";
+      document.getElementById('MyFormStyle_delete').style.display="none";
+      document.getElementById('MyFormTrivia_delete').style.display="none";
+      document.getElementById('MyFormUser').style.display="none";
+      document.getElementById('MyFormAdd_admin').style.display="block";
+      //data
+    }
+    //data
+    else if(vrible == "user_show"){
+      //acts
+      document.getElementById('MyFormStyle_add').style.display="none";
+      document.getElementById('MyFormTrivia_add').style.display="none";
+      document.getElementById('MyFormStyle_delete').style.display="none";
+      document.getElementById('MyFormTrivia_delete').style.display="none";
+      document.getElementById('MyFormUser').style.display="none";
+      document.getElementById('MyFormAdd_admin').style.display="none";
+      //data
+      document.getElementById('user_table').style.display="block";
+      document.getElementById('trivia_table').style.display="none";
+      document.getElementById('games_table').style.display="none";
+      document.getElementById('rounds_table').style.display="none";
+      document.getElementById('style_table').style.display="none";
+    }
+    else if(vrible == "trivia_show"){
+      //acts
+      document.getElementById('MyFormStyle_add').style.display="none";
+      document.getElementById('MyFormTrivia_add').style.display="none";
+      document.getElementById('MyFormStyle_delete').style.display="none";
+      document.getElementById('MyFormTrivia_delete').style.display="none";
+      document.getElementById('MyFormUser').style.display="none";
+      document.getElementById('MyFormAdd_admin').style.display="none";
+      //data
+      document.getElementById('user_table').style.display="none";
+      document.getElementById('trivia_table').style.display="block";
+      document.getElementById('games_table').style.display="none";
+      document.getElementById('rounds_table').style.display="none";
+      document.getElementById('style_table').style.display="none";
+    }
+    else if(vrible == "games_show"){
+      //acts
+      document.getElementById('MyFormStyle_add').style.display="none";
+      document.getElementById('MyFormTrivia_add').style.display="none";
+      document.getElementById('MyFormStyle_delete').style.display="none";
+      document.getElementById('MyFormTrivia_delete').style.display="none";
+      document.getElementById('MyFormUser').style.display="none";
+      document.getElementById('MyFormAdd_admin').style.display="none";
+      //data
+      document.getElementById('user_table').style.display="none";
+      document.getElementById('trivia_table').style.display="none";
+      document.getElementById('games_table').style.display="block";
+      document.getElementById('rounds_table').style.display="none";
+      document.getElementById('style_table').style.display="none";
+    }
+    else if(vrible == "rounds_show"){
+      //acts
+      document.getElementById('MyFormStyle_add').style.display="none";
+      document.getElementById('MyFormTrivia_add').style.display="none";
+      document.getElementById('MyFormStyle_delete').style.display="none";
+      document.getElementById('MyFormTrivia_delete').style.display="none";
+      document.getElementById('MyFormUser').style.display="none";
+      document.getElementById('MyFormAdd_admin').style.display="none";
+      //data
+      document.getElementById('user_table').style.display="none";
+      document.getElementById('trivia_table').style.display="none";
+      document.getElementById('games_table').style.display="none";
+      document.getElementById('rounds_table').style.display="block";
+      document.getElementById('style_table').style.display="none";
+    }
+    else if(vrible == "style_show"){
+      //acts
+      document.getElementById('MyFormStyle_add').style.display="none";
+      document.getElementById('MyFormTrivia_add').style.display="none";
+      document.getElementById('MyFormStyle_delete').style.display="none";
+      document.getElementById('MyFormTrivia_delete').style.display="none";
+      document.getElementById('MyFormUser').style.display="none";
+      document.getElementById('MyFormAdd_admin').style.display="none";
+      //data
+      document.getElementById('user_table').style.display="none";
+      document.getElementById('trivia_table').style.display="none";
+      document.getElementById('games_table').style.display="none";
+      document.getElementById('rounds_table').style.display="none";
+      document.getElementById('style_table').style.display="block";
+    }
+}
+
+function onlyOneImageOrColor(checkbox) { //checking what user choosed - image or color
+  var checkboxes = document.getElementsByName('boox');
+  var hiddenid = document.getElementById('hid_type');
+  checkboxes.forEach((item) => {
+      if (item !== checkbox) {
+        item.checked = false;
+      }
+      else{
+        hiddenid.value=item.value;
+      }
+  })
+  var image_file = document.getElementById("image_send");
+  var image_or_color = document.getElementById("url")
+   if(hiddenid.value == "image"){
+     image_file.type="file";
+     image_or_color.value=null;
+     image_or_color.type="hidden";
+   }
+   else{
+     image_file.type="hidden";
+     image_or_color.type="text";
+   }
+}
+
+function preventBack() {
+  window.history.forward(); 
+}
+
+setTimeout("preventBack()", 0);
+
+window.onunload = function () { null };
+
+</script>
+
+
+{% endblock %}

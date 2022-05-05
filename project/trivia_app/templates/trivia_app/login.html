@@ -1,0 +1,71 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+{% block title  %} Login Page {% endblock %}
+{% block head_files %}
+<link rel="stylesheet" href="static/trivia_app/loginNDregister.css">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main"> 
+    <div style="position:relative;padding:0;width:100%;height:10px;">
+        <form id="" method="POST" action="/RegisterNDLogin">
+            <button name="admin_go" type="submit">Admin page</button>
+        </form>
+    </div> 
+</br>
+    <div style="position:relative;padding:0;width:100%;height:10px;">
+        <form id="yasuo_main" method="POST" action="/RegisterNDLogin">
+            <input id="email_api_id" type="hidden" value="nigger" name="email_api">
+            <button name="api_button" type="submit">Forgot password?</button>
+        </form>
+    </div>	
+    <input type="checkbox" id="chk" aria-hidden="true">
+        <div class="signup">
+            <form method="POST" action="/RegisterNDLogin">
+                <label for="chk" aria-hidden="true">Log in</label>
+                <input type="text" name="username" autocomplete="off" placeholder="Username" required="" maxlength="20">
+                <input type="email" name="email" autocomplete="off" placeholder="Email" required="" maxlength="50">
+                <input type="password" name="password" autocomplete="off" placeholder="Password" required="" maxlength="20">
+                <button type="submit" name="registerbutton">Sign up</button>
+                <p> {{text_return}} </p>
+                <p>{{text_api}} </p>
+            </form>
+        </div>
+
+        <div class="login">
+            <form method="POST" action="/RegisterNDLogin">
+                <label for="chk" aria-hidden="true">Sign up</label>
+                <input type="text" name="username" autocomplete="off" placeholder="Username" required="">
+                <input type="password" name="password" autocomplete="off" placeholder="Password" required="">
+                <button type="submit" name="loginbutton">Log in</button>
+                <p> {{text_return}} </p>
+                <p>{{text_api}} </p>
+            </form>
+        </div>
+
+</div>
+
+
+<script>
+document.getElementById('yasuo_main').addEventListener('submit',
+    function(event){
+  var email_text = prompt("Enter your email to retrive your password");
+ var gges =document.getElementById("email_api_id")
+       gges.value=email_text;
+});
+
+function preventBack() {
+    window.history.forward(); 
+}
+  
+setTimeout("preventBack()", 0);
+  
+window.onunload = function () { null };
+</script>
+
+
+{% endblock %}
