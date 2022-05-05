@@ -35,47 +35,47 @@
 </form>
 
 
-<form id="MyFormStyle_add" style="display:none" method="POST" action="/admin" enctype="multipart/form-data">
+<form id="MyFormStyle_add" autocomplete="off" style="display:none" method="POST" action="/admin" enctype="multipart/form-data">
 <h3>Add style item</h3>
 <p>Item ID - auto</p>
 <p>name:</p>
-<input type="text" name="name">
+<input type="text" autocomplete="off" name="name">
 <p>cost:</p>
-<input type="text" name="cost">
+<input type="text" autocomplete="off" name="cost">
 <p>url(if no image):</p>
-<input type="hidden" id="url" name="url" required>
+<input type="hidden" id="url" autocomplete="off" name="url" required>
 <p>description:</p>
-<input type="text" name="description">
+<input type="text" autocomplete="off" name="description">
 <p>Choose type</p>
-<p> <input type="checkbox" name="boox" value="image" onClick="onlyOneImageOrColor(this)" /> Image</p>
-<p> <input type="checkbox" name="boox" value="color" onClick="onlyOneImageOrColor(this)" /> Color</p>
+<p> <input type="checkbox" autocomplete="off" name="boox" value="image" onClick="onlyOneImageOrColor(this)" /> Image</p>
+<p> <input type="checkbox" autocomplete="off" name="boox" value="color" onClick="onlyOneImageOrColor(this)" /> Color</p>
 <input type="hidden" id="image_send" name="image_send">
 <input type="hidden" id="hid_type" name="hid_type" value="None">
 <button type="submit" name="button_add_style"> click </button>
 </form>
 
-<form id="MyFormStyle_delete" style="display:none" method="POST" action="/admin" >
+<form id="MyFormStyle_delete" autocomplete="off" style="display:none" method="POST" action="/admin" >
 <h3>Delete Style by id</h3>
 <p>Style id:</p>
-<input type="text" name="style_delete">
+<input type="text" autocomplete="off" name="style_delete">
 <button type="submit" name="button_delete_style"> click </button>
 </form>
 
-<form id="MyFormTrivia_delete" style="display:none" method="POST" action="/admin">
+<form id="MyFormTrivia_delete" autocomplete="off" style="display:none" method="POST" action="/admin">
   <h3>Delete Trivia Question</h3>
   <p>question id:</p>
-  <input type="text" name="question_delete">
+  <input type="text" autocomplete="off" name="question_delete">
   <button type="submit" name="button_delete_question"> click </button>
 </form>
 
-<form id="MyFormAdd_admin" style="display:none" method="POST" action="/admin">
+<form id="MyFormAdd_admin" autocomplete="off" style="display:none" method="POST" action="/admin">
   <h3>Send admin register code to email</h3>
   <p>Email:</p>
-  <input type="text" name="email_address">
+  <input type="text" autocomplete="off" name="email_address">
   <button type="submit" name="button_add_admin"> click </button>
 </form>
 
-<form id="MyFormTrivia_add" style="display:none" method="POST" action="/admin">
+<form id="MyFormTrivia_add" autocomplete="off" style="display:none" method="POST" action="/admin">
   <h3>Add Trivia Question</h3>
   <p>question code - auto</p>
   <p>answer:</p>
@@ -87,22 +87,22 @@
     <input type="hidden" id="hid_answer" name="hid_answer" value="">
   </div>
   <p>question:</p>
-  <input type="text" name="question">
+  <input type="text" autocomplete="off" name="question">
   <p>answer1:</p>
-  <input type="text" name="answer1">
+  <input type="text" autocomplete="off" name="answer1">
   <p>answer2:</p>
-  <input type="text" name="answer2">
+  <input type="text" autocomplete="off" name="answer2">
   <p>answer3:</p>
-  <input type="text" name="answer3">
+  <input type="text" autocomplete="off" name="answer3">
   <p>answer4:</p>
-  <input type="text" name="answer4">
+  <input type="text" autocomplete="off" name="answer4">
   <button type="submit" name="button_add_trivia_text"> click </button>
 </form>
 
-<form id="MyFormUser" style="display:none" method="POST" action="/admin">
+<form id="MyFormUser" autocomplete="off" style="display:none" method="POST" action="/admin">
   <h5>Delete User by username</h5>
   <p>Enter username:</p>
-  <input type="text" name="username_find">
+  <input type="text" autocomplete="off" name="username_find">
   <button type="submit" name="button_delete_user"> click </button>
 </form>
 

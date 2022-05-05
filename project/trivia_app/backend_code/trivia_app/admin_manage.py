@@ -15,14 +15,9 @@ mycursor = mydb.cursor()
 
 class admin_manage:
     """<user objects"""
-    Admin_register_code = "abcde"# shaco
 
     def __init__(self,**kwargs):#
-        if len(kwargs)==3:
-          self.username = kwargs["username"]
-          self.password = kwargs["password"]
-          self.code = kwargs["code"]
-        elif len(kwargs)==2:
+        if len(kwargs)==2:
           self.username = kwargs["username"]
           self.password = kwargs["password"]
         elif len(kwargs)==1:
@@ -62,7 +57,7 @@ class admin_manage:
         return False
 
     def Register(self):#register new admin to data base
-        if self.check_if_admin_exit() == True or self.code!=admin_manage.Admin_register_code:
+        if self.check_if_admin_exit() == True:
             return False        
         sql_query = "INSERT INTO admin_layer2 (username, password) VALUES (%s, %s)"
         value_sql = (self.username, self.password)

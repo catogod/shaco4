@@ -99,7 +99,7 @@ class style_item:
   def Add_Basic_Color(self):# adding basic color to data (only one time)
     if CheckForBasicStyles("color")==False:
       sql_query = "INSERT INTO style_item (item_id, name, cost, url, description, type) VALUES (%s, %s, %s, %s, %s, %s)"
-      value_sql = (GetNewItemID(), "Blue", 0, "blue", "A basic blue color, can't be removed","color")
+      value_sql = (GetNewItemID(), "Black", 0, "black", "A basic black color, can't be removed","color")
       mycursor.execute(sql_query, value_sql)
 
   def Add_Basic_Image(self):# adding basic color to data and code folder (only one time)
@@ -142,7 +142,7 @@ def CheckForBasicStyles(types):#checks if the one or two of the basic style exis
     return False
   if types=="color":
     sql_query = "Select * from style_item where url=%s"
-    value_sql = ("blue",)
+    value_sql = ("black",)
     mycursor.execute(sql_query, value_sql)
     if mycursor.fetchall()!=[]:
       return True

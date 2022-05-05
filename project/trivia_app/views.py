@@ -65,7 +65,7 @@ def RegisterNDLogin(request):
                 styleItems=user_items(username=request.POST["username"])
                 styleItems.AddBasicStyleToUser("None.png")#adding image
                 styleItems.ChangeUserStyleById("image")
-                styleItems.AddBasicStyleToUser("blue")#adding color
+                styleItems.AddBasicStyleToUser("black")#adding color
                 styleItems.ChangeUserStyleById("color")
         else:
             text_register="User with this email already exists"       
@@ -289,15 +289,12 @@ def admin_handele(request):
                "style_show":style_item.ReturnAllStyleItems(),"games_show":user_games.ShowGamesTable(),"rounds_show":user_rounds.ShowRoundsTable(),"trivia_show":trivia.ShowTriviaTable()})
             #admin send register code to email
            if 'button_add_admin' in request.POST:
-               return_answer="There is no email like this in the data"
-               user=user_manage(email=request.POST["email_address"])
-               if user.ReturnUserByEmailForAPI()!=False:#check if email like this is in data
-                   admin=admin_manage()#for the admin code
-                   requests.post("http://127.0.0.1:3000/invite_user_to_become_admin/",data={"admin_username":request.session['admin'],
-                   "email_address":request.POST["email_address"],"admin_code":admin.Admin_register_code})#sending the request to the other server
-                   return_answer="The data sended successfuly to email"
-               return render(request,"trivia_app/admin.html",{"return_answer":return_answer,"user_show":user_manage.ShowUsersTable(),
+                M_admin=main_admin()#for the admin code
+                requests.post("http://127.0.0.1:3000/invite_user_to_become_admin/",data={"admin_username":request.session['admin'],
+                "email_address":request.POST["email_address"],"admin_code":M_admin.ReturnAdminLoginNRegisterCode()})#sending the request to the other server
+                return render(request,"trivia_app/admin.html",{"return_answer":return_answer,"user_show":user_manage.ShowUsersTable(),
                "style_show":style_item.ReturnAllStyleItems(),"games_show":user_games.ShowGamesTable(),"rounds_show":user_rounds.ShowRoundsTable(),"trivia_show":trivia.ShowTriviaTable()})
+            ##################################   
         #basic get request
        return render(request,"trivia_app/admin.html",{
            "user_show":user_manage.ShowUsersTable(),"style_show":style_item.ReturnAllStyleItems(),"games_show":user_games.ShowGamesTable(),
@@ -331,11 +328,13 @@ def admin_RNL_handele(request):
     if request.method=="POST":
         #register method post
         if 'registerbutton' in  request.POST:
-            text_register="wrong username/password or wrong code"#the sended value 
-            admin = admin_manage(username=request.POST["username"],password=request.POST["password"],code=request.POST["code"])
-            if admin.Register() == True:#add 
-                text_register="Registered scucesfuly"
-            return render(request,"trivia_app/admin_login.html",{"text_return":text_register})
+            M_admin=main_admin()
+            if M_admin.ReturnAdminLoginNRegisterCode()==request.POST["code"]:#check if code is valid
+                text_register="wrong username/password or wrong code"#the sended value 
+                admin = admin_manage(username=request.POST["username"],password=request.POST["password"])
+                if admin.Register() == True:#add 
+                    text_register="Registered scucesfuly"
+                return render(request,"trivia_app/admin_login.html",{"text_return":text_register})
 
           #login method post
         if 'loginbutton' in request.POST:

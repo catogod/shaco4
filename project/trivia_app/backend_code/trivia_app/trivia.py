@@ -94,4 +94,6 @@ def GetNewTriviaID():#incrementing by one the last trivia id
       sql_query = ("SELECT * FROM trivia WHERE question_id=(SELECT max(question_id) FROM trivia)")
       mycursor.execute(sql_query)
       arara = mycursor.fetchall()
+      if arara==[]:
+        return 1
       return arara[0][0]+1

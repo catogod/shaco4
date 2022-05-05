@@ -14,7 +14,6 @@ mycursor = mydb.cursor()
 
 class main_admin:
     """<user objects"""
-    Admin_register_code = "abcde"# shaco
 
     def __init__(self,**kwargs):#
       if len(kwargs)==3:
@@ -46,8 +45,8 @@ class main_admin:
 
     def CompareCodes(self):
         mycursor.execute("SELECT main_admin_code FROM main_admin")
-        sql_code=mycursor.fetchall()
-        if self.code==sql_code[0][0]:
+        sql_value=mycursor.fetchall()
+        if self.code==sql_value[0][0]:
           return True
         return False
 
@@ -90,6 +89,12 @@ class main_admin:
         mycursor.execute(sql_query, value_sql)
         return True
       return False
+    
+    def ReturnAdminLoginNRegisterCode(self):
+      sql_query = "SELECT admin_inv_code from main_admin where key_1=%s"
+      value_sql = (1,)
+      mycursor.execute(sql_query,value_sql)
+      return mycursor.fetchall()[0][0]
 
 
 
