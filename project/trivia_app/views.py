@@ -33,6 +33,14 @@ def Main_login(request):#no url
 
 
 def Error_404_view(request,str):
+    #session
+    if 'user' in request.session:
+        return redirect("/menu")
+    if 'admin' in request.session:
+        return redirect("/admin")
+    if 'main_admin' in request.session:
+       return redirect("/main_admin")
+    #
     return render(request,"404.html")
 
 #log out view
@@ -55,9 +63,9 @@ def RegisterNDLogin(request):
     if 'user' in request.session:
         return redirect("/menu")
     if 'admin' in request.session:
-        redirect("/admin")
+        return redirect("/admin")
     if 'main_admin' in request.session:
-        redirect("/main_admin")
+       return redirect("/main_admin")
     #
     if request.method =="POST":
         #register method post
@@ -108,9 +116,9 @@ def RegisterNDLogin(request):
 def Menu_handele(request):
     #seesion
     if 'admin' in request.session:
-        redirect("/admin")
+        return redirect("/admin")
     if 'main_admin' in request.session:
-        redirect("/main_admin")
+        return redirect("/main_admin")
     
     if 'user' in request.session:
         if request.method == "GET":
@@ -127,9 +135,9 @@ def Menu_handele(request):
 def User_handele(request):
     #seesion
     if 'admin' in request.session:
-        redirect("/admin")
+        return redirect("/admin")
     if 'main_admin' in request.session:
-        redirect("/main_admin")
+        return redirect("/main_admin")
     #
     if 'user' in request.session:#should add the user color and image to preview - next time
       All_user_items=user_items(username=request.session['user']).GetAllUserStylesAsFullData()#all the items that avliable to user
@@ -192,9 +200,9 @@ def User_handele(request):
 def Trivia_handele(request):
     #session
     if 'admin' in request.session:
-        redirect("/admin")
+        return redirect("/admin")
     if 'main_admin' in request.session:
-        redirect("/main_admin")
+        return redirect("/main_admin")
     #
     if 'user' in request.session:
         #post
@@ -257,7 +265,7 @@ def admin_handele(request):
    if 'user' in request.session:
         return redirect("/menu")
    if 'main_admin' in request.session:
-        redirect("/main_admin")
+        return redirect("/main_admin")
     #session
    if 'admin' in request.session:
        if request.method=="POST":
@@ -336,9 +344,9 @@ def admin_handele(request):
 def shop_handele(request):
     #session
     if 'admin' in request.session:
-        redirect("/admin")
+        return redirect("/admin")
     if 'main_admin' in request.session:
-        redirect("/main_admin")
+        return redirect("/main_admin")
     #
     if 'user' in request.session:
         if request.method =="GET":
@@ -364,9 +372,9 @@ def admin_RNL_handele(request):
     if 'user' in request.session:
         return redirect("/menu")
     if 'admin' in request.session:
-        redirect("/admin")
+        return redirect("/admin")
     if 'main_admin' in request.session:
-        redirect("/main_admin")
+        return redirect("/main_admin")
     #
     #post request
     if request.method=="POST":
@@ -403,9 +411,9 @@ def admin_RNL_handele(request):
 def Top_page_handele(request):
     #session
     if 'admin' in request.session:
-        redirect("/admin")
+        return redirect("/admin")
     if 'main_admin' in request.session:
-        redirect("/main_admin")
+       return redirect("/main_admin")
     #
     if 'user' in request.session:
         if request.method=="GET":
@@ -420,9 +428,9 @@ def Top_page_handele(request):
 def rulate(request):#should add user colors
     #session
     if 'admin' in request.session:
-        redirect("/admin")
+        return redirect("/admin")
     if 'main_admin' in request.session:
-        redirect("/main_admin")
+        return redirect("/main_admin")
         #
     if 'user' in request.session:
         userItems =user_items(username=request.session['user']).GetUserSelectedStyles()#user styles
@@ -461,9 +469,9 @@ def Main_admin_login(request):
     if 'user' in request.session:
         return redirect("/menu")
     if 'admin' in request.session:
-        redirect("/admin")
+        return redirect("/admin")
     if 'main_admin' in request.session:
-        redirect("/main_admin")
+        return redirect("/main_admin")
     #
     if request.method=="GET":
         return render(request,"trivia_app/main_admin_login.html")
@@ -491,7 +499,7 @@ def Main_admin(request):
     if 'user' in request.session:
         return redirect("/menu")
     if 'admin' in request.session:
-        redirect("/admin")
+        return redirect("/admin")
     #session
     if "main_admin" in request.session:
         r=rulate_manage()
