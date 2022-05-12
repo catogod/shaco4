@@ -29,10 +29,8 @@ def Main_login(request):#no url
        return redirect("/RegisterNDLogin")
 
 
-#django cant store objects in seesion at easy way so fuck off
-# ---- when you use arrows you to navigate back session.pop() -------
-#you should not delete any data 
-# https://stackoverflow.com/questions/9877263/time-delayed-redirect/16541769 - to timer
+
+
 
 def Error_404_view(request,str):
     return render(request,"404.html")
@@ -53,6 +51,14 @@ def Log_out(request):
 
 #view of register and login
 def RegisterNDLogin(request):
+    #session
+    if 'user' in request.session:
+        return redirect("/menu")
+    if 'admin' in request.session:
+        redirect("/admin")
+    if 'main_admin' in request.session:
+        redirect("/main_admin")
+    #
     if request.method =="POST":
         #register method post
        if 'registerbutton' in  request.POST:
@@ -100,6 +106,12 @@ def RegisterNDLogin(request):
 
 #view of menu
 def Menu_handele(request):
+    #seesion
+    if 'admin' in request.session:
+        redirect("/admin")
+    if 'main_admin' in request.session:
+        redirect("/main_admin")
+    
     if 'user' in request.session:
         if request.method == "GET":
             userItems =user_items(username=request.session['user'])
@@ -113,6 +125,12 @@ def Menu_handele(request):
 
 #all views of users
 def User_handele(request):
+    #seesion
+    if 'admin' in request.session:
+        redirect("/admin")
+    if 'main_admin' in request.session:
+        redirect("/main_admin")
+    #
     if 'user' in request.session:#should add the user color and image to preview - next time
       All_user_items=user_items(username=request.session['user']).GetAllUserStylesAsFullData()#all the items that avliable to user
       round_object=user_rounds(username=request.session['user']).ReturnUserInfoRounds()#the data of user games
@@ -172,6 +190,12 @@ def User_handele(request):
 
 #all trivia views
 def Trivia_handele(request):
+    #session
+    if 'admin' in request.session:
+        redirect("/admin")
+    if 'main_admin' in request.session:
+        redirect("/main_admin")
+    #
     if 'user' in request.session:
         #post
         if request.method=="POST":#i will delete the vriables after i arrive to api and css
@@ -229,6 +253,12 @@ def Trivia_handele(request):
 
 #all admins views
 def admin_handele(request):
+    #session
+   if 'user' in request.session:
+        return redirect("/menu")
+   if 'main_admin' in request.session:
+        redirect("/main_admin")
+    #session
    if 'admin' in request.session:
        if request.method=="POST":
            #add trivia question
@@ -304,6 +334,12 @@ def admin_handele(request):
         
 #all shop views
 def shop_handele(request):
+    #session
+    if 'admin' in request.session:
+        redirect("/admin")
+    if 'main_admin' in request.session:
+        redirect("/main_admin")
+    #
     if 'user' in request.session:
         if request.method =="GET":
           arara=style_item.ReturnAllStyleItems()
@@ -324,6 +360,14 @@ def shop_handele(request):
 
 #all admin_login views
 def admin_RNL_handele(request):
+    #session
+    if 'user' in request.session:
+        return redirect("/menu")
+    if 'admin' in request.session:
+        redirect("/admin")
+    if 'main_admin' in request.session:
+        redirect("/main_admin")
+    #
     #post request
     if request.method=="POST":
         #register method post
@@ -357,6 +401,12 @@ def admin_RNL_handele(request):
     return render(request,"trivia_app/admin_login.html")#the 500 return
 
 def Top_page_handele(request):
+    #session
+    if 'admin' in request.session:
+        redirect("/admin")
+    if 'main_admin' in request.session:
+        redirect("/main_admin")
+    #
     if 'user' in request.session:
         if request.method=="GET":
             tp= top_manage()
@@ -368,6 +418,12 @@ def Top_page_handele(request):
 
 #all rulate views
 def rulate(request):#should add user colors
+    #session
+    if 'admin' in request.session:
+        redirect("/admin")
+    if 'main_admin' in request.session:
+        redirect("/main_admin")
+        #
     if 'user' in request.session:
         userItems =user_items(username=request.session['user']).GetUserSelectedStyles()#user styles
 
@@ -380,7 +436,7 @@ def rulate(request):#should add user colors
                 rr=rr.JoinWheel()#parsing the value to the 2 arrays - each time user realod it takes the items so...
                 request.session['items_array'] = rr[1]
                 return render(request,"trivia_app/rulate.html",{"option_wheel":rr[0],"all_items":rr[1],
-                "all_return":"From your blance were taken ","text_color":userItems[0],      
+                "all_return":"From your blance were taken ","text_color":userItems[0],"img":"static/trivia_app/"+userItems[1],   
                 })
 
         
@@ -395,12 +451,20 @@ def rulate(request):#should add user colors
             location="Country: "+request.POST["country"]+", "+"City: "+request.POST["city"]+", "+"street: "+request.POST["street"]+", "+"Home Number: "+request.POST["home"]+", "+"Appartment number: "+request.POST["appartment"]
             user_email=user_manage(username=request.session['user']).GetEmailFromData()
             requests.post("http://127.0.0.1:3000/Send_user_his_win_info_in_rulate/",data={"email_address":user_email,"product":request.POST["product"],"user_location":location})
-            return render(request,"trivia_app/menu.html",{"all_return":"The product you won will arrive soon to you, check your email for more information","text_color":userItems[0],"username_session":request.session['user'],})     
+            return render(request,"trivia_app/menu.html",{"all_return":"The product you won will arrive soon to you, check your email for more information","text_color":userItems[0],"username_session":request.session['user'],"img":"static/trivia_app/"+userItems[1],})     
         
     return redirect("/")
 
 
 def Main_admin_login(request):
+    #session
+    if 'user' in request.session:
+        return redirect("/menu")
+    if 'admin' in request.session:
+        redirect("/admin")
+    if 'main_admin' in request.session:
+        redirect("/main_admin")
+    #
     if request.method=="GET":
         return render(request,"trivia_app/main_admin_login.html")
     if request.method=="POST":
@@ -423,6 +487,12 @@ def Main_admin_login(request):
 
 
 def Main_admin(request):
+    #session
+    if 'user' in request.session:
+        return redirect("/menu")
+    if 'admin' in request.session:
+        redirect("/admin")
+    #session
     if "main_admin" in request.session:
         r=rulate_manage()
         admin=admin_manage()

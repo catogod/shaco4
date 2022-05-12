@@ -81,7 +81,7 @@ class user_manage:
         username=self.username
         password=self.password
         if self.check_user(username, password) == True:
-            return username # the session - security sucks but no one pay me for the work so, gg es bot jungle diff(seesion cant accept classes because of something and you need do some manipulation to put the class and i dont want work on this - this site is shit )
+            return username # the session 
         return None
 
     def AddOnePointToUser(self):#adding one point to user

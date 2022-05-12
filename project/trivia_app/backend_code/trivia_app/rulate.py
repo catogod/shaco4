@@ -20,7 +20,7 @@ class rulate_manage:
             pass
 
 
-    
+    #should add if no item no login, add the checker for the product,and add a null 50 / 50 as the items
     
     def RegisterItem(self):#register new product
       sql_query = "INSERT INTO prize_pool (product_name,amount) VALUES (%s,%s)"
@@ -38,7 +38,7 @@ class rulate_manage:
       arara=[]
       items =  mycursor.fetchall()
       for item in items:
-        arara.append(item[1])
+        arara.append(item[0])
       DeleteOneItemForShortPeriod(items)#if 2 user will join at same time and get the same item of amount=1, chances are low
       return [arara,items]
 
@@ -60,13 +60,13 @@ class rulate_manage:
 def DeleteOneItemForShortPeriod(list_item):
   for item in list_item:
     sql_query="UPDATE prize_pool set amount=%s WHERE product_name=%s "
-    value_sql = (item[2]-1,item[1])
+    value_sql = (int(item[1]-1),item[0])
     mycursor.execute(sql_query, value_sql)
 
 def AddTheItemsToPreviusBeforeDelExceptThatOne(list_item):# in data(a,1) --> the array (a,2)
   for item in list_item:
     sql_query="UPDATE prize_pool SET amount=%s WHERE product_name=%s and amount<%s"
-    value_sql = (item[2],item[1],item[2])
+    value_sql = (int(item[1]),item[0],item[1])
     mycursor.execute(sql_query, value_sql)
 
   
@@ -75,12 +75,12 @@ def AutoDelteItem():#auto delete the item when admin register
     mycursor.execute("Select * from prize_pool")
     list_of_items = mycursor.fetchall()
     for item in list_of_items:
-        if item[2]<=0:
+        if item[1]<=0:
             sql_query="DELETE FROM prize_pool WHERE product_name=%s"
-            value_sql = (item[1],)
+            value_sql = (item[0],)
             mycursor.execute(sql_query, value_sql)
 
-def GetThePointsThatNeedToJoinWheel():
+def GetThePointsThatNeedToJoinWheel():#kinds sus
   mycursor.execute("Select points_for_rulate from main_admin where key_1=1")
   points = mycursor.fetchall()
   return points[0][0]

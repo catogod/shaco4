@@ -25,7 +25,7 @@ class trivia():
         self.answer2 = kwargs["answer2"]
         self.answer3 = kwargs["answer3"]
         self.answer4 = kwargs["answer4"]
-        self.question_id = GetNewTriviaID()  #wtf???? - nah its okay
+        self.question_id = GetNewTriviaID()  
       elif len(kwargs) == 1:
         self.question_id=kwargs["question_id"]
       else:

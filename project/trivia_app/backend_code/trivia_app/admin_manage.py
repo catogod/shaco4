@@ -68,7 +68,7 @@ class admin_manage:
     
     def Login(self):#function that returns admin username if he logins
         if self.check_admin() == True:
-            return self.username # the session - security sucks but no one pay me for the work so, gg es bot jungle diff(seesion cant accept classes because of something and you need do some manipulation to put the class and i dont want work on this - this site is shit )
+            return self.username # the session 
         return None
 
     def AdminTable(self):
