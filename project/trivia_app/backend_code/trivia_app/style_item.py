@@ -68,6 +68,8 @@ class style_item:
 
   def DeleteStyleByIdAndReturnIt(self):#delting the style by id and then return it char's - for future needs
     arara_of_style=self.GetItemCharcteristicById(self.item_id)
+    if arara_of_style==False:
+      return False
     if CheckForBasicStyles(arara_of_style[5])==False:#checking if it not basic style
       if arara_of_style!=False:
         sql_query = "DELETE FROM style_item WHERE item_id=%s"

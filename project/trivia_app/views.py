@@ -439,9 +439,9 @@ def rulate(request):#should add user colors
             user_m=user_manage(username=request.session['user'])
             rr=rulate_manage()
             remain_points=rr.CheckIfUserCanUseRulate(user_m.GetPointsFromData())#false or user points after paying for rulate
-            if remain_points !=False:
-                user_m.UpdateUserPoints(remain_points)#taking the points from user
-                rr=rr.JoinWheel()#parsing the value to the 2 arrays - each time user realod it takes the items so...
+            if remain_points[0] == True:
+                user_m.UpdateUserPoints(remain_points[1])#taking the points from user
+                rr=rr.JoinWheel()#parsing the value to the 2 arrays - each time user reload it takes the items so...
                 request.session['items_array'] = rr[1]
                 return render(request,"trivia_app/rulate.html",{"option_wheel":rr[0],"all_items":rr[1],
                 "all_return":"From your blance were taken ","text_color":userItems[0],"img":"static/trivia_app/"+userItems[1],   
@@ -453,7 +453,10 @@ def rulate(request):#should add user colors
                  "username_session":request.session['user'],"text_color":userItems[0],"img":"static/trivia_app/"+userItems[1],})
 
         if request.method=="POST":
-            rr=rulate_manage()
+            if request.session['items_array'] =="None":
+                return render(request,"trivia_app/menu.html",{"all_return":"Next time more luck","text_color":userItems[0],"username_session":request.session['user'],"img":"static/trivia_app/"+userItems[1],})
+            print(request.session['items_array'])
+            rr=rulate_manage(request.session['items_array'])
             rr.UserWin(request.session["items_array"])#data changer
             request.session.pop("items_array")
             location="Country: "+request.POST["country"]+", "+"City: "+request.POST["city"]+", "+"street: "+request.POST["street"]+", "+"Home Number: "+request.POST["home"]+", "+"Appartment number: "+request.POST["appartment"]
@@ -520,7 +523,8 @@ def Main_admin(request):
             if 'button_insert_prize' in request.POST:
                 rulate=rulate_manage(product_name=request.POST["name_insert"],amount=request.POST["amount_insert"])
                 text="the item added to the data"
-                rulate.RegisterItem()
+                if rulate.RegisterItem()==False:
+                     text="you cant register item with this name"
                 return render(request,"trivia_app/main_admin.html",{"return_answer":text,"rulateT":r.RulateTable(),"adminT":admin.AdminTable,"GmailT":M_admin.GetGmails(),"codeT":M_admin.GetTableCodes()})
             if 'button_insert_values' in request.POST:
                 m_ad=main_admin(code=request.POST["main_code_insert"],inv_code=request.POST["admin_inv_code_insert"],rulate_p=request.POST["rulate_points_insert"])

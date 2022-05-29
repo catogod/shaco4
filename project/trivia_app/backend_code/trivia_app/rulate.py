@@ -23,15 +23,20 @@ class rulate_manage:
     #should add if no item no login, add the checker for the product,and add a null 50 / 50 as the items
     
     def RegisterItem(self):#register new product
-      sql_query = "INSERT INTO prize_pool (product_name,amount) VALUES (%s,%s)"
-      value_sql = (self.name, self.amount)
-      mycursor.execute(sql_query, value_sql)
+      if self.name=="none":
+        return False
+      if self.AddItemToExisting() == False:
+        sql_query = "INSERT INTO prize_pool (product_name,amount) VALUES (%s,%s)"
+        value_sql = (self.name, self.amount)
+        mycursor.execute(sql_query, value_sql)
+        return True
 
     def ChangeAmount(self):#change amount of specific product
       sql_query = "UPDATE prize_pool SET amount=%s where product_name=%s"
       value_sql = (self.amount,self.name)
       mycursor.execute(sql_query, value_sql)
       AutoDelteItem()#auto data base clear
+    
 
     def JoinWheel(self):#getting all avliable products
       mycursor.execute("Select * from prize_pool")
@@ -39,6 +44,7 @@ class rulate_manage:
       items =  mycursor.fetchall()
       for item in items:
         arara.append(item[0])
+        arara.append("none")
       DeleteOneItemForShortPeriod(items)#if 2 user will join at same time and get the same item of amount=1, chances are low
       return [arara,items]
 
@@ -47,13 +53,39 @@ class rulate_manage:
       AutoDelteItem()#auto data base clear
 
     def CheckIfUserCanUseRulate(self,user_money):
-      if user_money>=GetThePointsThatNeedToJoinWheel():
-        return user_money-GetThePointsThatNeedToJoinWheel()
-      return False
+      points=int(user_money)-GetThePointsThatNeedToJoinWheel()
+      if points>=0:#problems with 0 and false
+        return [True,points]
+      return [False,points]
 
     def RulateTable(self):
       mycursor.execute("Select * from prize_pool")
       return mycursor.fetchall()
+
+    def if_table_is_empty(self):
+        mycursor.execute("SELECT COUNT(*) FROM prize_pool")
+        arr = mycursor.fetchall()#the rows of table
+        if arr[0][0] == 0:
+            return True
+        return False
+
+    
+    def AddItemToExisting(self):
+      if self.if_table_is_empty() == False:
+        sql_query = "Select * from prize_pool where product_name=%s"
+        value_sql = (self.name,)
+        mycursor.execute(sql_query, value_sql)
+        if len(mycursor.fetchall()) != 0:
+          item=mycursor.fetchall()[0]
+          sql_query = "UPDATE prize_pool SET amount=%s where product_name=%s"
+          value_sql = (self.name,int(self.amount+item[1]))
+          mycursor.execute(sql_query, value_sql)
+          return True
+      return False
+
+          
+
+
 
 
 
@@ -84,6 +116,9 @@ def GetThePointsThatNeedToJoinWheel():#kinds sus
   mycursor.execute("Select points_for_rulate from main_admin where key_1=1")
   points = mycursor.fetchall()
   return points[0][0]
+
+
+
 
 
 
