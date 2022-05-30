@@ -70,7 +70,7 @@ class style_item:
     arara_of_style=self.GetItemCharcteristicById(self.item_id)
     if arara_of_style==False:
       return False
-    if CheckForBasicStyles(arara_of_style[5])==False:#checking if it not basic style
+    if CheckIfItABasicStyle(arara_of_style[3])==False:#checking if it not basic style
       if arara_of_style!=False:
         sql_query = "DELETE FROM style_item WHERE item_id=%s"
         value_sql = (self.item_id,)
@@ -149,6 +149,12 @@ def CheckForBasicStyles(types):#checks if the one or two of the basic style exis
     if mycursor.fetchall()!=[]:
       return True
     return False
+
+def CheckIfItABasicStyle(url):
+  if url=="None.png" or url=="black":
+    return True
+  return False
+
 
 
 

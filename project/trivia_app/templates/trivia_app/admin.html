@@ -35,7 +35,7 @@
 </form>
 
 
-<form id="MyFormStyle_add" autocomplete="off" style="display:none" method="POST" action="/admin" enctype="multipart/form-data">
+<form id="MyFormStyle_add" style="display:none" method="POST" action="/admin" enctype="multipart/form-data">
 <h3>Add style item</h3>
 <p>Item ID - auto</p>
 <p>name:</p>
@@ -488,6 +488,7 @@ function onlyOneAdminChoose(checkbox) { //manuipulation with forms
 function onlyOneImageOrColor(checkbox) { //checking what user choosed - image or color
   var checkboxes = document.getElementsByName('boox');
   var hiddenid = document.getElementById('hid_type');
+  console.log(1);
   checkboxes.forEach((item) => {
       if (item !== checkbox) {
         item.checked = false;
