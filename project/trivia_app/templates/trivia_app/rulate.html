@@ -17,19 +17,24 @@
 <input style="top:70%;left:41.5%;position:absolute; padding: 5px 5px 5px 5px; width: 5%;color:{{text_color}};" type="button" value="spin" id='spin' onClick="arara()" />
 <input id="nan" name="nany" value="{{option_wheel}}" type="text" style="visibility:hidden;" />
 
+
+<form id="aaaa" method="POST" action="/rulate">
+  <button id="backButton" name="backButton" style="display: none;top:70%;left:47%;position:absolute; padding: 5px 5px 5px 5px; width: 5%;color:{{text_color}};" type="submit">Back to menu</button>
+  </form>
+
 <div style="color:{{text_color}};">
 <form id="form_sub" method="POST" action="/rulate" style="display:none">
  <h1 id="TheItem"></h1>
  <p>Enter Your Country name</p>
- <input id="country" name="country" type="text" required>
+ <input id="country" name="country" type="text" autocomplete="off" required="">
  <p>Enter Your City name</p>
- <input id="city" type="text" name="city" required>
+ <input id="city" type="text" name="city" autocomplete="off" required="">
  <p>Enter Your street name</p>
- <input id="text" type="text" name="street" required>
+ <input id="text" type="text" name="street" autocomplete="off" required="">
  <p>Enter Your home number</p>
- <input id="home" type="text" name="home" required>
+ <input id="home" type="text" name="home" autocomplete="off" required="">
  <p>Enter Your Appartment number</p>
- <input id="appartment" type="text" name="appartment" required>
+ <input id="appartment" type="text" name="appartment" autocomplete="off" required="">
  <p>Check carefully the information before confirm</p>
  <button  style="top:70%;left:47%;position:absolute; padding: 5px 5px 5px 5px; width: 5%;color:{{text_color}};" id="claim_rew" type="submit">Claim Reward</button>
   <input id="product" name="product" value="" type="text" style="visibility:hidden;"/>
@@ -169,7 +174,9 @@
       var text = options[index];
       console.log(text);
       document.getElementById("product").value=text;
-      document.getElementById("TheItem").innerHTML="Put your Address to get prize --> "+text;
+      if (text!=" none"){
+        document.getElementById("TheItem").innerHTML="Put your Address to get prize --> "+text;
+      } 
       ctx.fillText(text, 250 - ctx.measureText(text).width / 2, 250 + 10);
       ctx.restore();
     }
@@ -188,8 +195,17 @@
         setInterval(function () {
             duration=--duration;
             if (duration==0){
-              document.getElementById('form_sub').style.display="block";//getting the form visiable
-              document.getElementById("canvas").style.display="none";
+              if (document.getElementById("product").value ==" none"){
+                document.getElementById("backButton").style.display="block";
+                document.getElementById('form_sub').style.display="none";
+                console.log(1);
+              }
+              else{
+                console.log(0);
+                document.getElementById('form_sub').style.display="block";//getting the form visiable
+                document.getElementById("canvas").style.display="none";
+              }
+              
             }
         }, 1000);
     }

@@ -453,11 +453,14 @@ def rulate(request):#should add user colors
                  "username_session":request.session['user'],"text_color":userItems[0],"img":"static/trivia_app/"+userItems[1],})
 
         if request.method=="POST":
-            if request.session['items_array'] =="None":
+            if 'backButton' in request.POST:
+                rr=rulate_manage()
+                rr.UserWin(request.session["items_array"],request.POST["product"])#will just back the items
+                request.session.pop("items_array")
                 return render(request,"trivia_app/menu.html",{"all_return":"Next time more luck","text_color":userItems[0],"username_session":request.session['user'],"img":"static/trivia_app/"+userItems[1],})
-            print(request.session['items_array'])
-            rr=rulate_manage(request.session['items_array'])
-            rr.UserWin(request.session["items_array"])#data changer
+            rr=rulate_manage()
+            print(request.POST["product"])
+            rr.UserWin(request.session["items_array"],request.POST["product"])#data changer
             request.session.pop("items_array")
             location="Country: "+request.POST["country"]+", "+"City: "+request.POST["city"]+", "+"street: "+request.POST["street"]+", "+"Home Number: "+request.POST["home"]+", "+"Appartment number: "+request.POST["appartment"]
             user_email=user_manage(username=request.session['user']).GetEmailFromData()

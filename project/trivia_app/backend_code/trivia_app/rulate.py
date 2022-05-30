@@ -48,7 +48,8 @@ class rulate_manage:
       DeleteOneItemForShortPeriod(items)#if 2 user will join at same time and get the same item of amount=1, chances are low
       return [arara,items]
 
-    def UserWin(self,items):
+    def UserWin(self,items,product_win):#same as where he losses
+      DelOneFromItemInArray(product_win,items)#array changer
       AddTheItemsToPreviusBeforeDelExceptThatOne(items)#the data changer
       AutoDelteItem()#auto data base clear
 
@@ -116,6 +117,12 @@ def GetThePointsThatNeedToJoinWheel():#kinds sus
   mycursor.execute("Select points_for_rulate from main_admin where key_1=1")
   points = mycursor.fetchall()
   return points[0][0]
+
+def DelOneFromItemInArray(product_name,array):
+  for item in array:
+    if item[0]==product_name.lstrip(' '):
+      item[1]=item[1]-1
+
 
 
 
