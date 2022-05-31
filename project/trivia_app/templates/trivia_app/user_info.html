@@ -6,7 +6,7 @@
 
 {% block head_files %}
 <script type="application/json" src="https://kit.fontawesome.com/a076d05399.js"></script>
-<link rel="stylesheet" href="static/trivia_app/user.css">
+<link rel="stylesheet" href="static/trivia_app/css_files/user.css">
 {% endblock %}
 
 
@@ -49,7 +49,7 @@
     <p>Choose which item you want to change</p>
     <p><input type="checkbox" id="image_box" name="box" value="image" onClick="onlyOne(this)" />Image</p>
     <p><input type="checkbox" id="color_box" name="box" value="color" onClick="onlyOne(this)" />Color</p>
-    <input type="text" name="item_id_send">
+    <input type="text" autocomplete="off" required="" name="item_id_send">
     <p>{{change_item_return}}</p>
     <input type="hidden" name="hidden_style_choosed" id="hidden_style_choosed">
     <button type="submit" name="user_change_style_post">Change</button>
@@ -59,14 +59,14 @@
 <div id="change_div" style="display:none">
   <form method="POST" action="/user">
     <p>Enter your new email</p>
-    <input type="email" name="email_send">
+    <input type="email" autocomplete="off" required="" name="email_send">
     <button type="submit" name="user_change_email_post">New Email</button>
     <p>{{text_email}}</p>
     </form>
     
     <form method="POST" action="/user">
     <p>Enter your new password</p>
-    <input type="password" name="password_send">
+    <input type="password" autocomplete="off" required="" name="password_send">
     <button type="submit" name="user_change_password_post">New Password</button>
     <p>{{text_password}}</p>
     </from>
@@ -97,7 +97,7 @@
         <td>{{item.1}}</td>
         <td>{{item.2}}</td>
         {% if item.5 == "color" %} <td><p style="color:{{item.3}}">This color</p></td> {% endif %}
-        {% if item.5 == "image" %} <td><img src="static/trivia_app/{{item.3}}" width="100" height="100" /> </td> {% endif %}
+        {% if item.5 == "image" %} <td><img src="static/trivia_app/images/{{item.3}}" width="100" height="100" /> </td> {% endif %}
         <td>{{item.4}}</td>
         <td>{{item.5}}</td>
     </tr>

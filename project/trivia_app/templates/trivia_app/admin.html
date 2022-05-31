@@ -5,7 +5,7 @@
 {% block title  %} Trivia Page {% endblock %}
 
 {% block head_files %}
-<link rel="stylesheet" href="static/trivia_app/admin.css">
+<link rel="stylesheet" href="static/trivia_app/css_files/admin.css">
 {% endblock %}
 
 
@@ -227,7 +227,7 @@
             <td>{{item.1}}</td>
             <td>{{item.2}}</td>
             {% if item.5 == "color" %} <td><p style="color:{{item.3}}">This color</p></td> {% endif %}
-            {% if item.5 == "image" %} <td><img src="static/trivia_app/{{item.3}}" width="100" height="100" /> </td> {% endif %}
+            {% if item.5 == "image" %} <td><img src="static/trivia_app/images/{{item.3}}" width="100" height="100" /> </td> {% endif %}
             <td>{{item.4}}</td>
             <td>{{item.5}}</td>
         </tr>
@@ -265,7 +265,7 @@ document.getElementById('CheckType').addEventListener('click', e => {
 
 
 
-document.getElementById('MyFormStyle').onsubmit = function (e) { // checks if admin choosed image or color
+document.getElementById('MyFormStyle_add').onsubmit = function (e) { // checks if admin choosed image or color
   var checkbox = document.getElementsByName("boox"),
       i,
       checked;

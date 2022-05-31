@@ -6,7 +6,7 @@
 
 {% block head_files %}
 <script type="application/json" src="https://kit.fontawesome.com/a076d05399.js"></script>
-<link rel="stylesheet" href="static/trivia_app/shop.css">
+<link rel="stylesheet" href="static/trivia_app/css_files/shop.css">
 {% endblock %}
 
 
@@ -36,7 +36,7 @@
 
 <form id="myform" method="POST" action="/shop">
 <p>Choose the style you want to buy by ID</p>
-<input type="text" name="item_id">
+<input type="text" autocomplete="off" required="" name="item_id">
 <p>{{Shop_Return_Buy}}</p>
 <button name="buy_item_button" style="color:{{text_color}}" type="submit"> Buy </button>
 </form>
@@ -60,7 +60,7 @@
       <td>{{item.1}}</td>
       <td>{{item.2}}</td>
       {% if item.5 == "color" %} <td><p style="color:{{item.3}}">This color</p></td> {% endif %}
-      {% if item.5 == "image" %} <td><img src="static/trivia_app/{{item.3}}" width="100" height="100" /> </td> {% endif %}
+      {% if item.5 == "image" %} <td><img src="static/trivia_app/images/{{item.3}}" width="100" height="100" /> </td> {% endif %}
       <td>{{item.4}}</td>
       <td>{{item.5}}</td>
   </tr>

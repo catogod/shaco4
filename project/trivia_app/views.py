@@ -127,7 +127,7 @@ def Menu_handele(request):
             return render(request, "trivia_app/menu.html",{
              "username_session":request.session['user'],
              "text_color":userItems[0],
-             "img":"static/trivia_app/"+userItems[1],      
+             "img":"static/trivia_app/images/"+userItems[1],      
            })
     return redirect("/")
 
@@ -157,7 +157,7 @@ def User_handele(request):
               "email_info":userItems.user.GetEmailFromData(),"points_info":userItems.user.GetPointsFromData(),
               "games_played_info":userItems.user.GetGamesPlayedFromData(),"color_info":userItems.user.GetColor_IdOfUserFromData(),
               "image_info":userItems.user.GetImage_IdOfUserFromData(),"change_item":change_item_return,"style_arara":All_user_items,
-              "round_arara":round_object,"text_color":user__Items[0],"img":"static/trivia_app/"+user__Items[1] })
+              "round_arara":round_object,"text_color":user__Items[0],"img":"static/trivia_app/images/"+user__Items[1] })
         #change password
         elif 'user_change_password_post' in request.POST:
             User=user_manage(username=request.session['user'])
@@ -170,7 +170,7 @@ def User_handele(request):
               "games_played_info":User.GetGamesPlayedFromData(),
               "text_password":"password changed succsesfuly",
               "style_arara":All_user_items,"color_info":User.GetColor_IdOfUserFromData(),
-              "image_info":User.GetImage_IdOfUserFromData(),"round_arara":round_object,"text_color":user__Items[0],"img":"static/trivia_app/"+user__Items[1]})
+              "image_info":User.GetImage_IdOfUserFromData(),"round_arara":round_object,"text_color":user__Items[0],"img":"static/trivia_app/images/"+user__Items[1]})
         #change email
         elif 'user_change_email_post' in request.POST:
             User=user_manage(username=request.session['user'])
@@ -181,7 +181,7 @@ def User_handele(request):
             "username_info":request.session['user'],"password_info":User.GetPasswordFromData(),"email_info":User.GetEmailFromData(),
             "points_info":User.GetPointsFromData(),"games_played_info":User.GetGamesPlayedFromData(),"change_item":text_email,
             "style_arara":All_user_items,"color_info":User.GetColor_IdOfUserFromData(),
-              "image_info":User.GetImage_IdOfUserFromData(),"round_arara":round_object,"text_color":user__Items[0],"img":"static/trivia_app/"+user__Items[1],})
+              "image_info":User.GetImage_IdOfUserFromData(),"round_arara":round_object,"text_color":user__Items[0],"img":"static/trivia_app/images/"+user__Items[1],})
       #get
       if request.method == "GET":
           User=user_manage(username=request.session['user'])
@@ -192,7 +192,7 @@ def User_handele(request):
               "points_info":User.GetPointsFromData(),
               "games_played_info":User.GetGamesPlayedFromData(),
               "style_arara":All_user_items,"color_info":User.GetColor_IdOfUserFromData(),
-              "image_info":User.GetImage_IdOfUserFromData(),"round_arara":round_object,"text_color":user__Items[0],"img":"static/trivia_app/"+user__Items[1],
+              "image_info":User.GetImage_IdOfUserFromData(),"round_arara":round_object,"text_color":user__Items[0],"img":"static/trivia_app/images/"+user__Items[1],
           })
     return redirect("/")
 
@@ -226,7 +226,7 @@ def Trivia_handele(request):
                  "hid_question_id":Trivia_object.GetSpecificValueFromArara(arara,0),#getting a new random question
                  "hid_game_id":request.POST["hid_game_id"],
                  "text_color":userItems[0],
-                 "img_user":"static/trivia_app/"+userItems[1],   })
+                 "img_user":"static/trivia_app/images/"+userItems[1],   })
             else:
                 round_object=user_rounds(question_id=request.POST["hid_q_id"],answer=request.POST["hid_answer"],
                 username=request.session['user'],game_id=request.POST["hid_game_id"])#new round object with username and game_id
@@ -235,7 +235,7 @@ def Trivia_handele(request):
                 userItems=userItems.GetUserSelectedStyles()#override to user styles get the user selcted styles
                 return render(request,"trivia_app/menu.html",{
                  "all_return":"wrong answer, check your game history for more info - id of game : " + request.POST["hid_game_id"],
-                 "username_session":request.session['user'],"text_color":userItems[0],"img":"static/trivia_app/"+userItems[1],})
+                 "username_session":request.session['user'],"text_color":userItems[0],"img":"static/trivia_app/images/"+userItems[1],})
         #get
         if request.method=="GET":
             #so first get in - need to game id, username, and all rounds
@@ -256,7 +256,7 @@ def Trivia_handele(request):
              "hid_question_id":Trivia_object.GetSpecificValueFromArara(arara,0),
              "hid_game_id":game_id,
              "text_color":userItems[0],
-             "img_user":"static/trivia_app/"+userItems[1],})
+             "img_user":"static/trivia_app/images/"+userItems[1],})
     return redirect("/log_out")
 
 #all admins views
@@ -295,7 +295,7 @@ def admin_handele(request):
                url=style.InsertNewStyleItem()# none is color else is image
                if url!=None:
                   filename=request.FILES["image_send"]#the file 
-                  with open("trivia_app/static/trivia_app/"+url, "wb+") as dest:#put file into folder images chuck by chunk(rewrite)
+                  with open("trivia_app/static/trivia_app/images/"+url, "wb+") as dest:#put file into folder images chuck by chunk(rewrite)
                     for chunk in filename.chunks():
                        dest.write(chunk)
                return render(request,"trivia_app/admin.html",{"return_answer":"item saved successfuly","user_show":user_manage.ShowUsersTable(),
@@ -444,20 +444,20 @@ def rulate(request):#should add user colors
                 rr=rr.JoinWheel()#parsing the value to the 2 arrays - each time user reload it takes the items so...
                 request.session['items_array'] = rr[1]
                 return render(request,"trivia_app/rulate.html",{"option_wheel":rr[0],"all_items":rr[1],
-                "all_return":"From your blance were taken ","text_color":userItems[0],"img":"static/trivia_app/"+userItems[1],   
+                "all_return":"From your blance were taken ","text_color":userItems[0],"img":"static/trivia_app/images/"+userItems[1],   
                 })
 
         
             return render(request,"trivia_app/menu.html",{
                  "all_return":"Sorry but you are dont have enough points to use rulate",#maybe to do from top 10 of each
-                 "username_session":request.session['user'],"text_color":userItems[0],"img":"static/trivia_app/"+userItems[1],})
+                 "username_session":request.session['user'],"text_color":userItems[0],"img":"static/trivia_app/images/"+userItems[1],})
 
         if request.method=="POST":
             if 'backButton' in request.POST:
                 rr=rulate_manage()
                 rr.UserWin(request.session["items_array"],request.POST["product"])#will just back the items
                 request.session.pop("items_array")
-                return render(request,"trivia_app/menu.html",{"all_return":"Next time more luck","text_color":userItems[0],"username_session":request.session['user'],"img":"static/trivia_app/"+userItems[1],})
+                return render(request,"trivia_app/menu.html",{"all_return":"Next time more luck","text_color":userItems[0],"username_session":request.session['user'],"img":"static/trivia_app/images/"+userItems[1],})
             rr=rulate_manage()
             print(request.POST["product"])
             rr.UserWin(request.session["items_array"],request.POST["product"])#data changer
@@ -465,7 +465,7 @@ def rulate(request):#should add user colors
             location="Country: "+request.POST["country"]+", "+"City: "+request.POST["city"]+", "+"street: "+request.POST["street"]+", "+"Home Number: "+request.POST["home"]+", "+"Appartment number: "+request.POST["appartment"]
             user_email=user_manage(username=request.session['user']).GetEmailFromData()
             requests.post("http://127.0.0.1:3000/Send_user_his_win_info_in_rulate/",data={"email_address":user_email,"product":request.POST["product"],"user_location":location})
-            return render(request,"trivia_app/menu.html",{"all_return":"The product you won will arrive soon to you, check your email for more information","text_color":userItems[0],"username_session":request.session['user'],"img":"static/trivia_app/"+userItems[1],})     
+            return render(request,"trivia_app/menu.html",{"all_return":"The product you won will arrive soon to you, check your email for more information","text_color":userItems[0],"username_session":request.session['user'],"img":"static/trivia_app/images/"+userItems[1],})     
         
     return redirect("/")
 

@@ -77,7 +77,7 @@ class style_item:
         mycursor.execute(sql_query, value_sql)
         #deleting it from static folder if image
         if arara_of_style[5]=="image":
-          os.remove("trivia_app/static/trivia_app/"+arara_of_style[3])#the url of image in folder
+          os.remove("trivia_app/static/trivia_app/images/"+arara_of_style[3])#the url of image in folder
         return arara_of_style#returning the cost of product
     return False
 
@@ -109,7 +109,7 @@ class style_item:
       sql_query = "INSERT INTO style_item (item_id, name, cost, url, description, type) VALUES (%s, %s, %s, %s, %s, %s)"
       value_sql = (GetNewItemID(), "None", 0,"None.png", "A basic image, can't be removed", "image")
       mycursor.execute(sql_query, value_sql)
-      shutil.copy("static/Basic_image/None.png","trivia_app/static/trivia_app/None.png")
+      shutil.copy("static/Basic_image/None.png","trivia_app/static/trivia_app/images/None.png")
 
         
 
