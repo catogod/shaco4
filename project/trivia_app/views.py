@@ -455,7 +455,7 @@ def rulate(request):#should add user colors
         if request.method=="POST":
             if 'backButton' in request.POST:
                 rr=rulate_manage()
-                rr.UserWin(request.session["items_array"],request.POST["product"])#will just back the items
+                rr.UserWin(request.session["items_array"],request.POST["none_product"])#will just back the items
                 request.session.pop("items_array")
                 return render(request,"trivia_app/menu.html",{"all_return":"Next time more luck","text_color":userItems[0],"username_session":request.session['user'],"img":"static/trivia_app/images/"+userItems[1],})
             rr=rulate_manage()
