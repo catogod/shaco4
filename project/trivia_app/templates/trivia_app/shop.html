@@ -19,7 +19,7 @@
 <li> <a href="/user">User</a> </li>
 <li> <a href="/menu">Menu</a> </li>
 <li> <a href="/top">Top</a> </li>
-<li> <a href="/rulate">Rulate</a> </li>
+<li> <a href="/rulate">Roulette</a> </li>
 <li> <a href="/log_out">Log out</a> </li>
 </ul>
 </div>
@@ -31,11 +31,11 @@
 <div class="divContainer">
 
   <div class="changeDiv1">
-    <h1 style="text-align:center;font-size:50px;">Shop</h1>
+    <h1 style="text-align:center;font-size:50px;color:{{text_color}};">Shop</h1>
   </div>
 
 <form id="myform" method="POST" action="/shop">
-<p>Choose the style you want to buy by ID</p>
+<p style="color:{{text_color}}">Choose the style you want to buy by ID</p>
 <input type="text" autocomplete="off" required="" name="item_id">
 <p>{{Shop_Return_Buy}}</p>
 <button name="buy_item_button" style="color:{{text_color}}" type="submit"> Buy </button>
@@ -47,22 +47,22 @@
 <h1>Table of items:</h1>
 <Table class="table_in_div">
   <tr>
-    <th>Item id</th>
-    <th>Item Name</th>
-    <th>Item cost</th>
-    <th>Item color/image</th>
-    <th>Item desciption</th>
-    <th>Item type</th>
+    <th style="color:{{text_color}}">Item id</th>
+    <th style="color:{{text_color}}">Item Name</th>
+    <th style="color:{{text_color}}">Item cost</th>
+    <th style="color:{{text_color}}">Item color/image</th>
+    <th style="color:{{text_color}}">Item desciption</th>
+    <th style="color:{{text_color}}">Item type</th>
   </tr> 
 {% for item in style_arara %} 
   <tr>
-      <td>{{item.0}}</td> 
-      <td>{{item.1}}</td>
-      <td>{{item.2}}</td>
+      <td style="color:{{text_color}}">{{item.0}}</td> 
+      <td style="color:{{text_color}}">{{item.1}}</td>
+      <td style="color:{{text_color}}">{{item.2}}</td>
       {% if item.5 == "color" %} <td><p style="color:{{item.3}}">This color</p></td> {% endif %}
       {% if item.5 == "image" %} <td><img src="static/trivia_app/images/{{item.3}}" width="100" height="100" /> </td> {% endif %}
-      <td>{{item.4}}</td>
-      <td>{{item.5}}</td>
+      <td style="color:{{text_color}}">{{item.4}}</td>
+      <td style="color:{{text_color}}">{{item.5}}</td>
   </tr>
 {% endfor %}
 </Table>

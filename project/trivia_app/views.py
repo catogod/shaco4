@@ -99,10 +99,10 @@ def RegisterNDLogin(request):
        if 'api_button' in request.POST:#the api
            user=user_manage(email=request.POST["email_api"])
            text_api="There is no user with this email"
-           user=user.ReturnUserByEmailForAPI()#override to user info
+           user=user.ReturnUserByEmailForAPI()#override to user info      
            if user!=False:
-                requests.post("http://127.0.0.1:3000/forgot_password/",data={"email_address":user[3],"username":user[1],"password":user[2]})#sending the email to send the user password to email
-                text_api="check your email to get the password(check in spam)"
+                requests.post("http://127.0.0.1:3000/forgot_password/",data={"email_address":user[2],"username":user[0],"password":user[1]})#sending the email to send the user password to email
+                text_api="check your email to get the password"
            return render(request,"trivia_app/login.html",{
            "text_api":text_api,})
        if 'admin_go' in request.POST:
@@ -328,6 +328,7 @@ def admin_handele(request):
             #admin send register code to email
            if 'button_add_admin' in request.POST:
                 M_admin=main_admin()#for the admin code
+                return_answer="The email has been send to this address"
                 requests.post("http://127.0.0.1:3000/invite_user_to_become_admin/",data={"admin_username":request.session['admin'],
                 "email_address":request.POST["email_address"],"admin_code":M_admin.ReturnAdminLoginNRegisterCode()})#sending the request to the other server
                 return render(request,"trivia_app/admin.html",{"return_answer":return_answer,"user_show":user_manage.ShowUsersTable(),
